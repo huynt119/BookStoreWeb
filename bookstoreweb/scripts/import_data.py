@@ -2,10 +2,11 @@ import csv
 from webapp.models import Book, Rating, User, Tag, BookTag
             
 def run():
-    # Book.objects.all().delete()
-    # User.objects.all().delete()
-    # Rating.objects.all().delete()
-    # Tag.objects.all().delete()
+    Book.objects.all().delete()
+    User.objects.all().delete()
+    Rating.objects.all().delete()
+    Tag.objects.all().delete()
+    BookTag.objects.all().delete()
 
     with open("./data/booksdata.csv", 'r', encoding="utf8") as file:
         reader = csv.DictReader(file)

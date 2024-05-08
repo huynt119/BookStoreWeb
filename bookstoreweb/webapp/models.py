@@ -32,10 +32,19 @@ class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField()
 
+    def __str__(self):
+        return str(self.user) + ' rating: ' + str(self.item)
+
 class Tag(models.Model):
     tag = models.CharField(max_length=100)
     tag_id = models.AutoField(primary_key=True, unique=True)
 
+    def __str__(self):
+        return self.tag
+
 class BookTag(models.Model):
     item_tag = models.ForeignKey(Book, on_delete=models.CASCADE)
     id_tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.item_tag) + ' - ' + str(self.id_tag)

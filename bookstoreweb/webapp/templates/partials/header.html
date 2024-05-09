@@ -3,6 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+    <header>
+        <h1>Bookstore</h1>
+    </header>
+    <nav>
+        <a href="">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="{% url 'signin' %}">Signin/Signup</a>
+    </nav>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SW09</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -15,7 +36,13 @@
             <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
             <a href="#"><i class="fa fa-fw fa-envelope"></i> Contact</a>
             <a href="#"><i class="fa fa-fw fa-user"></i> Login</a>
+            <form action="/bookdetails" method="post">
+                {% csrf_token %}
+                <label for="your_name">Your name: </label>
+                <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
+                <input type="submit" class= "submit_btn btn label-success" value="OK" />
+            </form>
         </div>
     </header>
 </body>
-</html>
+</html> -->

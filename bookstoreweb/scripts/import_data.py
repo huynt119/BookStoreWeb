@@ -1,12 +1,19 @@
 import csv
-from webapp.models import Book, Rating, User, Tag, BookTag
+from webapp.models import Book, Rating, User, Tag
             
 def run():
     Book.objects.all().delete()
     User.objects.all().delete()
     Rating.objects.all().delete()
     Tag.objects.all().delete()
-    BookTag.objects.all().delete()
+
+    with open("./data/tags.csv", 'r', encoding= "utf8") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            Tag.objects.create(
+                tag = row['tag'],
+                tag_id = row['id']
+            )
 
     with open("./data/booksdata.csv", 'r', encoding="utf8") as file:
         reader = csv.DictReader(file)
@@ -20,8 +27,9 @@ def run():
                 img = row['img'],
                 year = row['year'],
                 description = row['description'],
-                price=row['price']
+                price=row['price'],
             )
+        
 
     with open("./data/usersdata.csv", 'r', encoding="utf8") as file:
         reader = csv.DictReader(file)
@@ -45,19 +53,12 @@ def run():
                 rating = row['rating']
             )
 
-    with open("./data/tags.csv", 'r', encoding= "utf8") as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            Tag.objects.create(
-                tag = row['tag'],
-                tag_id = row['id']
-            )
-
     with open("./data/tag_id.csv", 'r', encoding= "utf8") as file:
         reader = csv.DictReader(file)
         for row in reader:
-            BookTag.objects.create(
-                item_tag = Book.objects.get(item_id = row['item_id']),
-                id_tag = Tag.objects.get(tag_id = row['tag_id']),
-            )
+            book = Book.objects.get(item_id = row['item_id'])
+            tag = Tag.objects.get(tag_id = row['tag_id'])
+            book.book_tags.add(tag)
+            
+        
             

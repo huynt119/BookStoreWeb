@@ -1,6 +1,14 @@
 from django.db import models
+from django.contrib import admin
 
 # Create your models here.
+class Tag(models.Model):
+    tag = models.CharField(max_length=100)
+    tag_id = models.AutoField(primary_key=True, unique=True)
+
+    def __str__(self):
+        return self.tag
+
 class Book(models.Model):
     item_id = models.AutoField(primary_key=True, unique=True)
     url = models.URLField(max_length=200)
@@ -11,6 +19,7 @@ class Book(models.Model):
     year = models.IntegerField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    book_tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.title
@@ -28,23 +37,17 @@ class User(models.Model):
         return self.first_name + ' ' + self.last_name
     
 class Rating(models.Model):
-    item = models.ForeignKey(Book, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='rating_item')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating_user')
     rating = models.IntegerField()
 
     def __str__(self):
         return str(self.user) + ' rating: ' + str(self.item)
+    
 
-class Tag(models.Model):
-    tag = models.CharField(max_length=100)
-    tag_id = models.AutoField(primary_key=True, unique=True)
 
-    def __str__(self):
-        return self.tag
 
-class BookTag(models.Model):
-    item_tag = models.ForeignKey(Book, on_delete=models.CASCADE)
-    id_tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return str(self.item_tag) + ' - ' + str(self.id_tag)
+# AdminClass
+class BookAdmin(admin.ModelAdmin):
+    filter_vertical = ('book_tags',)

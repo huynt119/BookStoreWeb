@@ -1,7 +1,13 @@
 from django.db import models
-from django.contrib import admin
-
-# Create your models here.
+from django.contrib.auth.models import AbstractUser
+    
+class UserAccount(AbstractUser):
+    phone_num = models.CharField(max_length=20)
+    address = models.TextField(blank=True, null=True)
+    
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
+    
 class Tag(models.Model):
     tag = models.CharField(max_length=100)
     tag_id = models.AutoField(primary_key=True, unique=True)
@@ -22,32 +28,49 @@ class Book(models.Model):
     book_tags = models.ManyToManyField(Tag)
 
     def __str__(self):
-        return self.title
+        return self.title    
     
-class User(models.Model):
-    user_id = models.AutoField(primary_key=True, unique=True)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=100)
-    phone_num = models.CharField(max_length=20)
-    address = models.TextField(blank=True, null=True)
-    
-    def __str__(self):
-        return self.first_name + ' ' + self.last_name
+    def get_avr_rating(self, ratings):
+        total = 0
+        for rate in ratings:
+            total += rate.rating
+        num = len(ratings)
+        return round(total / num, 2)
     
 class Rating(models.Model):
-    item = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='rating_item')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating_user')
+    item = models.OneToOneField(Book, on_delete=models.CASCADE, related_name='rating_item')
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name='rating_user')
     rating = models.IntegerField()
 
     def __str__(self):
         return str(self.user) + ' rating: ' + str(self.item)
     
+    def get_ratings_of_book(item):
+        ratings = Rating.objects.filter(item = item)
+        return ratings
+
+class Transaction(models.Model):
+    transaction_id = models.AutoField(primary_key=True, unique=True)
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name='transactions')
+    date = models.DateTimeField(auto_now_add=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return str(self.user) + ' purchased '
+
+class BookQuantity(models.Model):
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='book_quantity')
+    book = models.OneToOneField(Book, on_delete=models.CASCADE, related_name='quantity')
+    quantity = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.book) + ' - Quantity: ' + str(self.quantity)
+    
 
 
 
 
-# AdminClass
-class BookAdmin(admin.ModelAdmin):
-    filter_vertical = ('book_tags',)
+
+
+
+

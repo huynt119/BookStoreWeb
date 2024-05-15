@@ -6,16 +6,17 @@
     <title>Bookstore</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
 </head>
 <body>
     <header>
         <h1>Bookstore</h1>
     </header>
     <nav>
-        <a href="">Home</a>
+        <a href="{% url 'test' %}">Home</a>
+        <a href="{% url 'product' %}">Product</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
+        <a href="https://www.flaticon.com/free-icons/shopping-cart" title="shopping cart icons"><img src="../../../static/images/shopping-cart.png" alt=""></a>
         <a href="{% url 'signin' %}">Signin/Signup</a>
     </nav>
 

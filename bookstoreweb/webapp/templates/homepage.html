@@ -16,5 +16,8 @@
         <p>Some text about the jeans..</p>
         <p><button>Add to Cart</button></p>
     </div>
+    {{ request.session.person }}      {# {'name':'John','age':27} #}
+    {{ request.session.person.name }} {# John #}
+    {{ request.session.person.age }}  {# 27 #}
 </body>
 </html>

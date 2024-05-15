@@ -1,9 +1,9 @@
 import csv
-from webapp.models import Book, Rating, User, Tag
+from webapp.models import *
             
 def run():
     Book.objects.all().delete()
-    User.objects.all().delete()
+    UserAccount.objects.all().delete()
     Rating.objects.all().delete()
     Tag.objects.all().delete()
 
@@ -31,11 +31,12 @@ def run():
             )
         
 
-    with open("./data/usersdata.csv", 'r', encoding="utf8") as file:
+    with open("./data/account.csv", 'r', encoding="utf8") as file:
         reader = csv.DictReader(file)
         for row in reader:
-            User.objects.create(
-                user_id = row['id'],
+            UserAccount.objects.create_user(
+                id = row['id'],
+                username = row['username'],
                 first_name = row['first_name'],
                 last_name = row['last_name'],   
                 email = row['email'],
@@ -49,7 +50,7 @@ def run():
         for row in reader:
             Rating.objects.create(
                 item = Book.objects.get(item_id = row['item_id']),
-                user = User.objects.get(user_id = row['user_id']),
+                user = UserAccount.objects.get(id = row['user_id']),
                 rating = row['rating']
             )
 

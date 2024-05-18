@@ -20,12 +20,19 @@ from webapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.homepage, name = 'test'),
+    path('home/', views.homepage, name = 'test'),
     path('product/', views.product, name='product'),
     path('signin/', views.signin, name='signin'),
     path('product/<int:item_id>', views.book_detail, name='book_detail'),
     path('userprofile/', views.userprofile, name='userprofile'),
     path('logout/', views.log_out ,name='logout'),
     path('add/<int:item_id>', views.add_to_cart, name="add_to_cart"),
-    path('payment/', views.payment, name="payment")
+    path('payment/', views.payment, name="payment"),
+    path('purchase/', views.purchase, name='purchase'),
+    path('userprofile/update/', views.update_profile, name='update_profile'),
+    path('product/<int:book_id>/rate/', views.submit_rating, name='submit_rating'),
+    path('product/search/', views.search_results, name='search_results'),
+    path('cart/delete', views.delete_from_cart, name='delete_from_cart'),
+    path('product/<str:tag>/', views.tagged_books_view, name='tagged_books'),
+    path('rate_book/', views.rate_book, name='rate_book'),
 ]

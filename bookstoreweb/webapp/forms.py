@@ -1,5 +1,6 @@
 from django import forms
 from .models import *
+from django.contrib.auth.models import User
 
 class SignUpForm(forms.ModelForm):
     password_repeat = forms.CharField(label="password_repeat", max_length=100, widget= forms.PasswordInput)
@@ -29,3 +30,9 @@ class PaymentForm(forms.Form):
     card_holder = forms.CharField(label="Card Holder", max_length=100)
     expiration_date = forms.DateField(label="Expiration Date")
     cvv = forms.CharField(label="CVV", max_length=3)
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserAccount
+        fields = ['username', 'email', 'first_name', 'last_name', 'phone_num', 'address']

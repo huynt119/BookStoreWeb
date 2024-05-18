@@ -14,9 +14,6 @@
 
                 <p>Don't have an account?<a href="javascript:void(0)" onclick="showForm('signupForm', false)">Sign Up</a></p>
                 <button type="submit" name="signin">Login</button>
-                <!-- {% for error in errors %}
-                <p style="color: red;" id="login-error">{{ error }}</p>
-                {% endfor %} -->
                 {% if signin_form.errors %}
                     <div class="errors">
                         <ul>
@@ -73,23 +70,6 @@
                 <button type="button" class="cancelbtn">Cancel</button>
                 <button type="submit" class="signupbtn" name="signup">Sign Up</button>
               </div>
-            <!-- {% for error in errors %}
-            <p style="color: red;" id="signup-error">{{ error }}</p>
-            {% endfor %} -->
-            <!-- {% if signup_form.errors %}
-                <div class="errors">
-                    <ul>
-                        {% for field in signup_form %}
-                            {% for error in field.errors %}
-                                <p style="color: red;">{{ error }}</p>
-                            {% endfor %}
-                        {% endfor %}
-                        {% for error in signup_form.non_field_errors %}
-                            <p style="color: red;">{{ error }}</p>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %} -->
             </div>
           </form>
     </div>
@@ -99,7 +79,6 @@
         const signupForm = document.getElementById('signupForm');
 
         function showForm(formId, showError) {
-            console.log('showForm called with:', formId);
             if (formId === 'signinForm') {
                 if (!showError){
                     errorDiv = signinForm.querySelector(".errors");
@@ -115,7 +94,6 @@
             } else if (formId === 'signupForm') {
                 if (!showError) {
                     const errorP = document.getElementsByClassName("error");
-                    console.log(errorP)
                     // if (errorP) {
                     //     // var paragraphs = errorDiv.querySelectorAll("p");
                     //     for (var i = 0; i < errorP.length; i++) {
@@ -134,25 +112,12 @@
 
         }
         event = document.getElementById('event')
-        console.log("event = ", event.innerHTML)
         if (event.innerHTML === 'signinForm' || event.innerHTML === ""){
-            console.log("check")
             showForm('signinForm', true)
         }
         else {
-            console.log("checl2")
             showForm('signupForm', true)
         }
     </script>
-
-    <!-- {% if signup_form.errors %}
-        <script>
-            showForm('signupForm');
-        </script>
-    {% else %}
-        <script>
-            showForm('signinForm');
-        </script>
-    {% endif %} -->
 
 {% include 'partials/footer.html' %}

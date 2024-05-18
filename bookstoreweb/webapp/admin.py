@@ -16,7 +16,6 @@ class TagAdmin(admin.ModelAdmin):
 
 class UserAccountAdmin(UserAdmin):
     model = UserAccount
-    list_display = ['email', 'password']
 
 # Register your models here.
 admin.site.register(Book, BookAdmin)

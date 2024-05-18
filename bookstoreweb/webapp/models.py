@@ -60,17 +60,9 @@ class Transaction(models.Model):
 
 class BookQuantity(models.Model):
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='book_quantity')
-    book = models.OneToOneField(Book, on_delete=models.CASCADE, related_name='quantity')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='quantity')
     quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.book) + ' - Quantity: ' + str(self.quantity)
-    
-
-
-
-
-
-
-
 

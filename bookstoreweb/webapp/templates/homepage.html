@@ -1,23 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SW09</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    {% include "partials/header.html" %} 
-    <div class="card">
-        <img src="" alt="Denim Jeans" style="width:100%">
-        <h1>Tailored Jeans</h1>
-        <p class="price">$19.99</p>
-        <p>Some text about the jeans..</p>
-        <p><button>Add to Cart</button></p>
-    </div>
-    {{ request.session.person }}      {# {'name':'John','age':27} #}
-    {{ request.session.person.name }} {# John #}
-    {{ request.session.person.age }}  {# 27 #}
-</body>
-</html>
+{% include "partials/header.html" %} 
+<div class="container">
+    <h1>Welcome to our Book Store!</h1>
+    <p>Explore our wide collection of books and find your next favorite read.</p>
+</div>
+{% include "partials/footer.html" %} 

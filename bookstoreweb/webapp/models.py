@@ -35,6 +35,8 @@ class Book(models.Model):
         for rate in ratings:
             total += rate.rating
         num = len(ratings)
+        if num == 0:
+            return 0
         return round(total / num, 2)
     
 class Rating(models.Model):

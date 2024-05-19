@@ -20,6 +20,10 @@
     background-color: #000;
 }
 
+/* .navbar-search {
+  float: right;
+} */
+
 /* Current/active navbar link */
 .active {
     background-color: #04AA6D;
@@ -43,18 +47,33 @@
 header {
     background-color: #333;
     color: #fff;
-    padding: 20px;
+    padding: 5px;
     text-align: center;
+    display: flex;
 }
 nav {
-    background-color: #666;
+    width: 100%;
+    /* background-color: #666; */
     padding: 10px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    
 }
 nav a {
     color: #fff;
     text-decoration: none;
     margin: 0 10px;
+}
+
+.header_a {
+      margin-left: auto;
+}
+nav form {
+    display: flex;
+    margin-left: 0;
+    width: 50%;
 }
 .container {
     /* max-width: 800px; */
@@ -196,8 +215,8 @@ footer {
   article h2 {
     position: relative;
     margin: 0 0 18px 0;
-    font-family: "Bebas Neue", cursive;
-    font-size: 1.9rem;
+    font-family: sans-serif;
+    font-size: 1.0rem;
     letter-spacing: 0.06em;
     color: var(--title-color);
     transition: color 0.3s ease-out;
@@ -205,7 +224,7 @@ footer {
     height: 50%;
     width: 100%;
     overflow: hidden;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 
   }
 
@@ -643,7 +662,8 @@ a {
 .product_search {
   position: relative;
   margin: 12px 0;
-  width: calc(100% - 300px - 48px);
+  /* width: calc(100% - 300px - 48px); */
+  width: calc(100% - 48px);
   margin-left: 24px;
   height: auto;
   display: flex;
@@ -667,4 +687,155 @@ a {
   height: 45px;
   flex: 1;
   padding: 0 12px !important;
+}
+
+/* .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+} */
+
+.dropdown {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+
+.dropdown_menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+
+  /* height: 200px; */
+  /* height: auto; */
+  max-height: calc(100vh - 500px - 32px);
+  width: 500px;
+
+  overflow: scroll;
+
+  background: white;
+  outline: 1px solid black;
+  box-shadow: 0 21rem 87rem 0 rgba(42,44,58,.15), 11.737rem 22.074rem 32rem 0 rgba(129,165,238,.1);
+  border-radius: 0 6px 6px 6px;
+  padding: 6px;
+
+  z-index: 999;
+  cursor: default;
+
+  color: black;
+}
+
+.dropdown > a:first-child {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 6px 6px 0 0;
+  transition: background-color 0.3s;
+}
+
+.dropdown:hover > a:first-child {
+  background-color: #f1f1f1;
+  outline: 1px solid black;
+  color: black;
+}
+
+.dropdown:hover > .dropdown_menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  /* Change to flex */
+}
+
+.dropdown_menu > a {
+  color: black;
+  transition: opacity 0.3s;
+}
+
+.dropdown_menu:hover > a {
+  opacity: 0.4;
+}
+
+.dropdown_menu:hover > a:hover {
+  opacity: 1;
+}
+
+.product_page_body {
+  display: flex;
+  gap: 12px;
+}
+
+#latest_books_card {
+  display: flex;
+  flex-wrap: wrap;
+  /* gap: 12px; */
+  /* justify-content: center; */
+}
+
+#latest_books_card > img {
+  width: 40%;
+  height: auto;
+}
+
+#latest_books_card > h5 {
+  margin-left: 10px;
+  width: 50%;
+  margin-top: 0
+}
+
+aside {
+  /* margin-top: 200px; */
+  width: 350px; /* Set the width of the aside */
+  padding: 20px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a border */
+  border-radius: 5px; /* Add some border radius */
+  box-shadow: 0 21rem 87rem 0 rgba(42,44,58,.15), 11.737rem 22.074rem 32rem 0 rgba(129,165,238,.1); /* Add some box shadow */
+  /* position: fixed; Make the aside always stay in the same place */
+  right: 0; /* Position the aside on the right */
+  top: 0; /* Position the aside at the top */
+  overflow-y: auto; /* Add a scrollbar if the content is too long */
+  /* height: 100%; Make the aside take up the full height of the page */
+  background: #fafafa;
+  /* display: flex; */
+}
+
+aside h2 {
+  margin-bottom: 10px; /* Add some margin to the bottom of the h2 */
+}
+
+aside div {
+  margin-bottom: 10px; /* Add some margin to the bottom of each book */
+}
+
+aside img {
+  width: 50%; /* Make the images take up the full width of the aside */
+  height: auto; /* Keep the original aspect ratio of the images */
+}
+
+aside a {
+  color: #007BFF; /* Change the color of the links */
+  text-decoration: none; /* Remove the underline from the links */
+}
+
+aside a:hover {
+  color: #0056b3; /* Change the color of the links when hovered */
 }

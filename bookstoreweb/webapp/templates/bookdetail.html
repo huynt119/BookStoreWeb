@@ -9,6 +9,7 @@
                 <a href="{% url 'tagged_books' tag.tag %}" class="tag">{{ tag.tag }}</a>
             {% endfor %}
             <p class="price">Price: ${{ book.price }}</p>
+            <a href="{% url 'add_to_cart' book.item_id %}">Add to cart</a>
         </div>
     </div>
     
@@ -20,18 +21,29 @@
         <h2>Rating: {{ avr_rate }}</h2>
         <h3>Rate this book:</h3>
         <div class="star-rating">
-            <img id="star1" src="/static/images/star_empty.png" alt="1" class="star" onclick="setRating(1)">
-            <img id="star2" src="/static/images/star_empty.png" alt="2" class="star" onclick="setRating(2)">
-            <img id="star3" src="/static/images/star_empty.png" alt="3" class="star" onclick="setRating(3)">
-            <img id="star4" src="/static/images/star_empty.png" alt="4" class="star" onclick="setRating(4)">
-            <img id="star5" src="/static/images/star_empty.png" alt="5" class="star" onclick="setRating(5)">
+            {% if user.is_authenticated %}
+            <img id="star1" src="/static/images/star_empty.png" alt="1" class="user_star" onclick="setRating(1)">
+            <img id="star2" src="/static/images/star_empty.png" alt="2" class="user_star" onclick="setRating(2)">
+            <img id="star3" src="/static/images/star_empty.png" alt="3" class="user_star" onclick="setRating(3)">
+            <img id="star4" src="/static/images/star_empty.png" alt="4" class="user_star" onclick="setRating(4)">
+            <img id="star5" src="/static/images/star_empty.png" alt="5" class="user_star" onclick="setRating(5)">
+            {% else %}
+            <p>Please <a href="{% url 'signin' %}">sign in</a> to rate this book.</p>
+            {% endif %}
         </div>
         <input type="hidden" id="rating" name="rating" value="{% if user_rating %}{{ user_rating.rating }}{% else %}0{% endif %}">
         {% for rate in ratings %}
-            <div class="user-rating">
+            <div class="user-rating" data-rating="{{ rate.rating }}">
                 <strong>{{ rate.user }}</strong>
                 <p>Rated: {{ rate.rating }}</p>
-                <p class="user-comment">{% lorem 20 w %}</p>
+                <div class="star-rating">
+                    <img id="star1-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="1" class="star">
+                    <img id="star2-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="2" class="star">
+                    <img id="star3-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="3" class="star">
+                    <img id="star4-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="4" class="star">
+                    <img id="star5-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="5" class="star">
+                </div>
+                <!-- <p class="user-comment">{% lorem 20 w %}</p> -->
             </div>
         {% endfor %}
     </div>
@@ -42,10 +54,18 @@
         for (var i = 1; i <= rating; i++) {
             document.getElementById('star' + i).src = '/static/images/star_filled.png';
         }
+
+        var userRatings = document.getElementsByClassName('user-rating');
+        for (var i = 0; i < userRatings.length; i++) {
+            var rating = userRatings[i].getAttribute('data-rating');
+            for (var j = 1; j <= rating; j++) {
+                document.getElementById('star' + j + '-' + (i + 1)).src = '/static/images/star_filled.png';
+            }
+        }
     };
 
     function setRating(rating) {
-        const stars = document.querySelectorAll('.star');
+        const stars = document.querySelectorAll('.user_star');
         const ratingInput = document.getElementById('rating');
         ratingInput.value = rating;  // Update the hidden input value for form submission
 
@@ -131,8 +151,8 @@
     .star-rating {
         cursor: pointer;
     }
-    .star {
-        width: 50px; /* Adjust size as needed */
+    .star, .user_star {
+        width: 40px; /* Adjust size as needed */
         transition: transform 0.2s;
     }
 

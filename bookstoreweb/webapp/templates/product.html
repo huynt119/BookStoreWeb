@@ -1,92 +1,50 @@
 {% include 'partials/header.html' %}
-<form action="{% url 'search_results' %}" method="get">
-  <div class="product_search">
-    <input
-      type="text"
-      name="q" 
-      placeholder="Search books..."
-      value="{% if request.GET.q %}{{ request.GET.q }}{% endif %}"
-    >
-    <button type="submit">Search</button>
-  </div>
-</form>
-<section class="articles">
-    {% for book in books %}
-    <article>
-      <div class="article-wrapper">
-        <figure>
-          <img src={{book.img}} alt="">
-        </figure>
-        <div class="article-body">
-          <h2>{{ book.title }}</h2>
-          <p class="price">$ {{ book.price }}</p>
-          <a href="{% url 'book_detail' book.item_id %}" class="read-more">
-            Read more
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </a>
-          <a href="{% url 'add_to_cart' book.item_id %}">Add to cart</a>
-        </div>
-      </div>
-    </article>
-    {% endfor %}
-
-    {% if prev >= 1 %}
-      <a href="?page={{prev}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}" class="previous" id="prev">&laquo; Previous</a>
-    {% endif %}
-
-    <a href="?page={{next}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}" class="next" id="next">Next &raquo;</a>
-
-  </section>
-<aside class="product_aside">
-    <h2>Latest Books</h2>
-    {% for book in latest_books %}
-        <div>
-            <a href="{% url 'book_detail' book.item_id %}">
-                <img src="{{ book.img }}" alt="{{ book.title }}">
-                <h3>{{ book.title }}</h3>
+{% if tag %}
+<h1>Books tagged with "{{ tag }}"</h1>
+{% elif request.GET.q %}
+<h1>Search results for "{{ request.GET.q }}"</h1>
+{% else %}
+<h1> All books</h1>
+{% endif %}
+<div class="product_page_body">
+    <!-- <div class="sort">
+        <label for="sort">Sort by:</label>
+        <select name="sort" id="sort">
+            <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+            <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+            <option value="title_asc" {% if request.GET.sort == 'title_asc' %}selected{% endif %}>Title: A to Z</option>
+            <option value="title_desc" {% if request.GET.sort == 'title_desc' %}selected{% endif %}>Title: Z to A</option>
+        </select>
+    </div> -->
+    <section class="articles">
+      {% for book in books %}
+      <article>
+        <div class="article-wrapper">
+          <figure>
+            <img src={{book.img}} alt="">
+          </figure>
+          <div class="article-body">
+            <h2>{{ book.title }}</h2>
+            <p class="price">$ {{ book.price }}</p>
+            <a href="{% url 'book_detail' book.item_id %}" class="read-more">
+              Read more
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
             </a>
-            <p>{{ book.author }}</p>
+            <a href="{% url 'add_to_cart' book.item_id %}">Add to cart</a>
+          </div>
         </div>
-    {% endfor %}
-</aside>
-<style>
-    aside {
-      margin-top: 200px;
-      width: 300px; /* Set the width of the aside */
-      padding: 20px; /* Add some padding */
-      border: 1px solid #ddd; /* Add a border */
-      border-radius: 5px; /* Add some border radius */
-      box-shadow: 0 21rem 87rem 0 rgba(42,44,58,.15), 11.737rem 22.074rem 32rem 0 rgba(129,165,238,.1); /* Add some box shadow */
-      position: fixed; /* Make the aside always stay in the same place */
-      right: 0; /* Position the aside on the right */
-      top: 0; /* Position the aside at the top */
-      overflow-y: auto; /* Add a scrollbar if the content is too long */
-      height: 100%; /* Make the aside take up the full height of the page */
-      background: #fafafa;
-  }
-
-  aside h2 {
-      margin-bottom: 10px; /* Add some margin to the bottom of the h2 */
-  }
-
-  aside div {
-      margin-bottom: 10px; /* Add some margin to the bottom of each book */
-  }
-
-  aside img {
-      width: 50%; /* Make the images take up the full width of the aside */
-      height: auto; /* Keep the original aspect ratio of the images */
-  }
-
-  aside a {
-      color: #007BFF; /* Change the color of the links */
-      text-decoration: none; /* Remove the underline from the links */
-  }
-
-  aside a:hover {
-      color: #0056b3; /* Change the color of the links when hovered */
-  }
-</style>
+      </article>
+      {% endfor %}
+  
+      {% if prev >= 1 %}
+        <a href="?page={{prev}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}" class="previous" id="prev">&laquo; Previous</a>
+      {% endif %}
+  
+      <a href="?page={{next}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}" class="next" id="next">Next &raquo;</a>
+  
+    </section>
+    {% include 'partials/aside.html' %}
+</div>
 {% include 'partials/footer.html' %}

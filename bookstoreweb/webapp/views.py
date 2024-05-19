@@ -84,21 +84,22 @@ def product(request):
 
     data = Book.objects.all()[offset:limit]
     template = loader.get_template("product.html")
-    latest_books = Book.objects.order_by('year')[:10]
+    # latest_books = Book.objects.order_by('year')[:10]
     context = {
         "books": data,
         "id": offset,
         "next": page + 1,
         "prev": page - 1,
-        "latest_books": latest_books,
+        # "latest_books": latest_books,
     }
     return HttpResponse(template.render(context, request))
 
 def book_detail(request, item_id):
-    # print("check")
     book = get_object_or_404(Book, pk=item_id)
     ratings = Rating.get_ratings_of_book(book)
-    user_rating = Rating.objects.filter(user=request.user, item_id=book.item_id).first()
+    if request.user.is_authenticated:
+        user_rating = Rating.objects.filter(user=request.user, item_id=book.item_id).first()
+    else: user_rating = 0
     avr_rate = book.get_avr_rating(ratings)
     tags = book.book_tags.all()
     context = {
@@ -139,11 +140,14 @@ def add_to_cart(request, item_id):
     # if book_id:
     # print("session data: ", request.session['cart'])
     cart = request.session.get('cart', [])
-    cart.append(item_id)
+    if item_id not in cart:
+        cart.append(item_id)
     request.session['cart'] = cart
     print("cart: ", request.session['cart'])
-    return render(request, "homepage.html")
+    messages.success(request, "Added successfully")
+    return redirect(request.META['HTTP_REFERER'])
 
+@login_required(login_url= "signin")
 def payment(request):
     cart = request.session.get('cart', [])
     books = []
@@ -212,20 +216,20 @@ def update_profile(request):
     
     return render(request, 'user.html', {'form': form})
 
-@login_required(login_url= "signin")
-def submit_rating(request, book_id):
-    if request.method == 'POST':
-        form = RatingForm(request.POST)
-        if form.is_valid():
-            rating = form.save(commit=False)
-            rating.user = request.user
-            rating.book_id = book_id
-            rating.save()
-            return redirect('book_detail', book_id=book_id)
-    else:
-        form = RatingForm()
-    # handle invalid form or other method
-    return redirect('book_detail', book_id=book_id)
+# @login_required(login_url= "signin")
+# def submit_rating(request, book_id):
+#     if request.method == 'POST':
+#         form = RatingForm(request.POST)
+#         if form.is_valid():
+#             rating = form.save(commit=False)
+#             rating.user = request.user
+#             rating.book_id = book_id
+#             rating.save()
+#             return redirect('book_detail', book_id=book_id)
+#     else:
+#         form = RatingForm()
+#     # handle invalid form or other method
+#     return redirect('book_detail', book_id=book_id)
 
 # take RESULT_PER_PAGE and DEFAULT_PAGE from above (get_page_range function)
 def search_results(request):
@@ -278,23 +282,24 @@ def tagged_books_view(request, tag):
         "id": offset,
         "next": page + 1,
         "prev": page - 1,
+        "tag": tag_obj
     }
     return HttpResponse(template.render(context, request))
 
+@login_required(login_url= "signin")
 def rate_book(request):
     if request.method == 'POST':
         book_id = request.POST.get('item_id')
         rating = request.POST.get('rating')
         user = request.user
-        print("id: ", book_id)
-        print("rating: ", rating)
-        print("user: ", user.id)
-        # Update the user's rating for the book.
-        # This assumes you have a model named UserRating with fields user, book, and rating.
-        Rating.objects.update_or_create(user=user, item_id=book_id, defaults={'rating': rating})
-        return render(request, 'homepage.html')
+        if user:
+            print("id: ", book_id)
+            print("rating: ", rating)
+            print("user: ", user.id)
+            # Update the user's rating for the book.
+            # This assumes you have a model named UserRating with fields user, book, and rating.
+            Rating.objects.update_or_create(user=user, item_id=book_id, defaults={'rating': rating})
+            return render(request, 'homepage.html')
+        else:
+            return render(request, 'signin.html')
 
-#TODO:
-#1. View books by tag
-#2. Filter books by price
-#3. update rating

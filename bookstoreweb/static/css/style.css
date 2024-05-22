@@ -76,9 +76,10 @@ nav form {
     width: 50%;
 }
 .container {
-    /* max-width: 800px; */
+    max-width: 800px;
     margin: 20px auto;
     padding: 0 20px;
+    width: 40%;
 }
 .book {
     background-color: #fff;
@@ -142,9 +143,48 @@ body {
     cursor: pointer;
 }
 
-footer {
-    position: fixed;
-    bottom: 0;
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  /* text-align: center; */
+  height: 10%;
+}
+
+.footer h3 {
+  margin-bottom: 20px;
+}
+
+.footer ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 10px;
+}
+
+.footer ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer ul li i {
+  margin-right: 10px;
+}
+
+.footer_container {
+  margin-left: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 50%;
+}
+
+.col-md-6 {
+  margin-left: 30px;
+}
+.signin_form {
+  background-color: #e1c59c;
 }
 
 #book_container {
@@ -167,35 +207,39 @@ footer {
 }
 
 .price {
-    color: rgb(54, 54, 54);
+    color: red;
     font-size: 22px;
   }
   
-  .card button {
-    border: none;
-    outline: 0;
-    padding: 12px;
-    color: white;
-    background-color: #000;
-    text-align: center;
-    cursor: pointer;
-    width: 100%;
-    font-size: 18px;
-  }
-  
-  .card button:hover {
-    opacity: 0.7;
-  }
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
 
+.card button:hover {
+  opacity: 0.7;
+}
+
+
+.book_detail_signin {
+  padding: 0;
+}
   article {
     --img-scale: 1.001;
     --title-color: black;
     --link-icon-translate: -20px;
     --link-icon-opacity: 0;
     position: relative;
-    border-radius: 16px;
+    /* border-radius: 16px; */
     box-shadow: none;
-    background: #fff;
+    /* background: #fff; */
     transform-origin: center;
     transition: all 0.4s ease-in-out;
     overflow: hidden;
@@ -235,86 +279,12 @@ footer {
     overflow: hidden;
   }
 
-  article .article-wrapper {
-    position: relative;
-    height: 100%;
-  }
-  
-  article img {
-    max-width: 100%;
-    transform-origin: center;
-    transform: scale(var(--img-scale));
-    transition: transform 0.4s ease-in-out;
-  }
-
-  /* article .article-wrapper figure {
-    position: relative;
-  } */
-
-  article .article-wrapper figure img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  
-  .article-body {
-    position: absolute;
-    bottom: 0;
-    height: 50%;
-    width: 100%;
-    padding: 24px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 8px 8px 0 0;
-
-    -webkit-backdrop-filter: blur(50px);
-    backdrop-filter: blur(50px);
-  }
-  
-  article a {
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none;
-    color: #28666e;
-  }
-  
-  article a:focus {
-    outline: 1px dotted #28666e;
-  }
-  
-  article a .icon {
-    min-width: 24px;
-    width: 24px;
-    height: 24px;
-    margin-left: 5px;
-    transform: translateX(var(--link-icon-translate));
-    opacity: var(--link-icon-opacity);
-    transition: all 0.3s;
-  }
-  
-  /* using the has() relational pseudo selector to update our custom properties */
-  article:has(:hover, :focus) {
-    --img-scale: 1.1;
-    --title-color: #28666e;
-    --link-icon-translate: 0;
-    --link-icon-opacity: 1;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-  }
-  
-  
-
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
   
   body {
     margin: 0;
     /* padding: 48px 0; */
     font-family: "Figtree", sans-serif;
     font-size: 1.2rem;
-    line-height: 1.6rem;
     min-height: 100vh;
     /* background-image: linear-gradient(45deg, #7c9885, #b5b682);
     background-repeat: no-repeat;
@@ -723,7 +693,7 @@ a {
   display: none;
   position: absolute;
   top: 100%;
-  left: 0;
+  left: calc(-100% - 5px);
 
   /* height: 200px; */
   /* height: auto; */
@@ -735,7 +705,7 @@ a {
   background: white;
   outline: 1px solid black;
   box-shadow: 0 21rem 87rem 0 rgba(42,44,58,.15), 11.737rem 22.074rem 32rem 0 rgba(129,165,238,.1);
-  border-radius: 0 6px 6px 6px;
+  border-radius: 6px;
   padding: 6px;
 
   z-index: 999;
@@ -780,8 +750,12 @@ a {
 }
 
 .product_page_body {
+  position: relative;
   display: flex;
   gap: 12px;
+  /* margin-bottom: 144px; */
+  box-sizing: content-box;
+  padding-bottom: 144px;
 }
 
 #latest_books_card {
@@ -838,4 +812,132 @@ aside a {
 
 aside a:hover {
   color: #0056b3; /* Change the color of the links when hovered */
+}
+
+#homepage {
+  color: #fafafa;
+}
+
+#homepage:hover {
+  color: #f1f1f1;
+}
+
+.article-wrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  border-radius: 12px;
+}
+
+.product_article_figure {
+  margin-bottom: 12px;
+  height: calc(70% - 12px);
+}
+
+.product_article_figure img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  /* object-position: top; */
+}
+
+#prev, #next {
+  position: absolute;
+  bottom: 0px;
+  transform: translateX(-50%);
+}
+
+#prev {
+  left: calc(50% - 54px);
+}
+
+#next {
+  left: calc(50% + 54px);
+}
+
+.article-body {
+  position: relative;
+  margin: 0 60px;
+  height: 30%;
+  overflow: auto;
+}
+
+.article-body > * {
+  margin: 0;
+}
+
+.article-body > h2 {
+  font-weight: normal;
+  font-family: sans-serif;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  max-height: 38%;
+}
+
+.article-body > .price {
+  color: #d94b27;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.article_util {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.article_util > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product_cart_icon {
+  fill: black;
+  height: 24px;
+  width: 24px;
+}
+
+.top_heading_margin {
+  margin-left: 24px;
+}
+
+.book_detail_add_to_cart {
+  padding: 0;
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+  font-size: 16px;
+  border-radius: 12px;
+}
+
+.book_detail_add_to_cart:hover {
+  opacity: 0.8;
+}
+
+#sign_in_book_detail:hover {
+  text-decoration: underline;
+}
+
+#book-info-title {
+  line-height: 1em;
+}
+
+.home-container {
+  display: flex;
+}
+
+#home-section {
+  background-color: white;
+}
+
+.rec-book {
+  display: flex;
 }

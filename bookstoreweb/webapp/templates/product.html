@@ -1,10 +1,10 @@
 {% include 'partials/header.html' %}
 {% if tag %}
-<h1>Books tagged with "{{ tag }}"</h1>
+<h1 class="top_heading_margin">Books tagged with "{{ tag }}"</h1>
 {% elif request.GET.q %}
-<h1>Search results for "{{ request.GET.q }}"</h1>
+<h1 class="top_heading_margin">Search results for "{{ request.GET.q }}"</h1>
 {% else %}
-<h1> All books</h1>
+<h1 class="top_heading_margin"> All books</h1>
 {% endif %}
 <div class="product_page_body">
     <!-- <div class="sort">
@@ -20,31 +20,31 @@
       {% for book in books %}
       <article>
         <div class="article-wrapper">
-          <figure>
+          <figure class="product_article_figure">
             <img src={{book.img}} alt="">
           </figure>
           <div class="article-body">
             <h2>{{ book.title }}</h2>
-            <p class="price">$ {{ book.price }}</p>
-            <a href="{% url 'book_detail' book.item_id %}" class="read-more">
-              Read more
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-            <a href="{% url 'add_to_cart' book.item_id %}">Add to cart</a>
+            <p class="price">${{ book.price }}</p>
+            <div class="article_util">
+              <a href="{% url 'book_detail' book.item_id %}" class="read-more">
+                Read more
+              </a>
+              <a href="{% url 'add_to_cart' book.item_id %}">
+                <svg class="product_cart_icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/></svg>
+              </a>
+            </div>
           </div>
         </div>
       </article>
-      {% endfor %}
-  
-      {% if prev >= 1 %}
-        <a href="?page={{prev}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}" class="previous" id="prev">&laquo; Previous</a>
-      {% endif %}
-  
-      <a href="?page={{next}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}" class="next" id="next">Next &raquo;</a>
-  
+      {% endfor %}  
     </section>
+      
+    {% if prev >= 1 %}
+      <a href="?page={{prev}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}" class="previous" id="prev">&laquo; Previous</a>
+    {% endif %}
+
+    <a href="?page={{next}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}" class="next" id="next">Next &raquo;</a>
     {% include 'partials/aside.html' %}
 </div>
 {% include 'partials/footer.html' %}

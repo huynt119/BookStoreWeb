@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import json
 from decimal import Decimal
+from ml_model import *
 
 # Create your views here.
 
@@ -32,8 +33,13 @@ def signin(request):
             if signinform.is_valid():
                 user = signinform.get_user()
                 login(request, user)
+                #get recommend books
+                user_id = request.user.id
+                books = recommend_books(user_id, 10)
                 request.session["cart"] = []
-                return redirect("/product/")
+                request.session["rec_books"] = books
+                print(request.session["rec_books"])
+                return redirect("/")
             else: 
                 return render(request, 'signin.html', context)
         elif 'signup' in request.POST:
@@ -57,8 +63,9 @@ def signin(request):
                 username = signupform.cleaned_data.get('username')
                 raw_password = signupform.cleaned_data.get('password')
                 user = authenticate(username=username, password=raw_password)
-                login(request, user)
-                return redirect("/product/")
+                # login(request, user)
+                context['event'] = 'signinForm'
+                return render(request, 'signin.html', context)
             else:
                 return render(request, 'signin.html', context)
     else:
@@ -66,7 +73,7 @@ def signin(request):
 
 def log_out(request):
     logout(request)
-    return redirect("/home/")
+    return redirect("/")
 
 RESULT_PER_PAGE = 18
 DEFAULT_PAGE = 1
@@ -202,7 +209,7 @@ def purchase(request):
     # Clear cart data in session
     request.session['cart'] = []
     # Redirect to a new URL or render a success message
-    return redirect('/home/')
+    return redirect('/')
 
 @login_required(login_url= "signin")
 def update_profile(request):
@@ -302,4 +309,6 @@ def rate_book(request):
             return render(request, 'homepage.html')
         else:
             return render(request, 'signin.html')
+        
+
 

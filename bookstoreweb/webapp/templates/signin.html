@@ -1,7 +1,7 @@
 {% include 'partials/header.html' %}
 <p id="event" style="display: none;">{{event}}</p>
     <div id="signinForm">
-        <form action="" method="post">
+        <form action="" method="post" class="signin_form">
             {% csrf_token %}
             <div class="container">
                 <h1>Sign In</h1>
@@ -32,7 +32,7 @@
         </form>
     </div>
     <div id="signupForm">
-        <form action="" style="border:1px solid #ccc" method="post">
+        <form action="" style="border:1px solid #ccc" method="post" class="signin_form">
             {% csrf_token %}
             <div class="container">
               <h1>Sign Up</h1>

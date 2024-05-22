@@ -3,13 +3,13 @@
     <div class="book-header">
         <img src={{ book.img }} alt="Cover image of {{ book.title }}" class="book-image">
         <div class="book-info">
-            <h1>{{ book.title }}</h1>
+            <h1 id="book-info-title">{{ book.title }}</h1>
             <p class="authors">By: {{ book.authors }}</p>
             {% for tag in tags %}
                 <a href="{% url 'tagged_books' tag.tag %}" class="tag">{{ tag.tag }}</a>
             {% endfor %}
             <p class="price">Price: ${{ book.price }}</p>
-            <a href="{% url 'add_to_cart' book.item_id %}">Add to cart</a>
+            <a class="book_detail_add_to_cart" href="{% url 'add_to_cart' book.item_id %}">Add to cart</a>
         </div>
     </div>
     
@@ -28,7 +28,7 @@
             <img id="star4" src="/static/images/star_empty.png" alt="4" class="user_star" onclick="setRating(4)">
             <img id="star5" src="/static/images/star_empty.png" alt="5" class="user_star" onclick="setRating(5)">
             {% else %}
-            <p>Please <a href="{% url 'signin' %}">sign in</a> to rate this book.</p>
+            <p>Please <a class="book_detail_signin" id="sign_in_book_detail" href="{% url 'signin' %}">sign in</a> to rate this book.</p>
             {% endif %}
         </div>
         <input type="hidden" id="rating" name="rating" value="{% if user_rating %}{{ user_rating.rating }}{% else %}0{% endif %}">
@@ -94,6 +94,7 @@
         display: flex;
         align-items: center;
         margin-bottom: 20px;
+        background-color: white;
     }
 
     .book-image {

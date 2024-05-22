@@ -1,6 +1,23 @@
 {% include "partials/header.html" %} 
-<div class="container">
-    <h1>Welcome to our Book Store!</h1>
-    <p>Explore our wide collection of books and find your next favorite read.</p>
+<div class="home-container">
+    <div id="home-section">
+        <h1>Welcome to our Book Store!</h1>
+        <p>Explore our wide collection of books and find your next favorite read.</p>
+        <div class="rec-book">
+            {% for book in rec_books %}
+            <div>
+                <a href="{% url 'book_detail' book.item_id %}" id="latest_books_card">
+                    <img src="{{ book.img }}" alt="{{ book.title }}">
+                    <h5>{{ book.title }}
+                        <br><br>
+                        <span>{{ book.price }}$</span>
+                    </h5>
+                </a>
+                <p>{{ book.author }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% include "partials/aside.html" %} 
 </div>
 {% include "partials/footer.html" %} 

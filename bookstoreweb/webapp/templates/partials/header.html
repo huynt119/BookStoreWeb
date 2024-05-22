@@ -18,7 +18,7 @@
 </head>
 <body>
     <header>
-        <h1><a href="{% url 'test' %}">Bookstore</a></h1>
+        <h1><a id="homepage" href="{% url 'home' %}">Bookstore</a></h1>
         <nav>
             <form action="{% url 'search_results' %}" method="get" class="navbar-search">
                 <div class="product_search">
@@ -32,7 +32,7 @@
                 </div>
             </form>
             <div class="header_a">
-                <a href="{% url 'test' %}">Home</a>
+                <a href="{% url 'home' %}">Home</a>
                 <div class="dropdown" id="product_dropdown">
                     <a href="{% url 'product' %}">
                         Product
@@ -57,31 +57,3 @@
     </header>
 
 
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SW09</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<body>
-    <header>
-        <div class="navbar">
-            <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
-            <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
-            <a href="#"><i class="fa fa-fw fa-envelope"></i> Contact</a>
-            <a href="#"><i class="fa fa-fw fa-user"></i> Login</a>
-            <form action="/bookdetails" method="post">
-                {% csrf_token %}
-                <label for="your_name">Your name: </label>
-                <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
-                <input type="submit" class= "submit_btn btn label-success" value="OK" />
-            </form>
-        </div>
-    </header>
-</body>
-</html> -->

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models import Avg
     
 class UserAccount(AbstractUser):
     phone_num = models.CharField(max_length=20)
@@ -50,6 +51,16 @@ class Rating(models.Model):
     def get_ratings_of_book(item):
         ratings = Rating.objects.filter(item = item)
         return ratings
+    
+    # Get 10 books have highest ovr rate score
+    def get_top_rated_books(limit=10):
+        # Annotate books with their average rating
+        books_with_avg_rating = Book.objects.annotate(avg_rating=Avg('rating_item__rating'))
+
+        # Order by average rating in descending order and limit to top `limit` books
+        top_books = books_with_avg_rating.order_by('-avg_rating')[:limit]
+
+        return top_books
 
 class Transaction(models.Model):
     transaction_id = models.AutoField(primary_key=True, unique=True)

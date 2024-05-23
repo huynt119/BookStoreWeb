@@ -1,7 +1,9 @@
 # Ignore database files
-# *.sqlite3
-# *.sqlite3-journal
+*.sqlite3
+*.sqlite3-journal
 
 # Ignore sensitive or environment-specific configuration files
-# .env
-# config.js
+.env
+config.js
+
+**__pycache__/

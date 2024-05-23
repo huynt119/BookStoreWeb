@@ -11,16 +11,16 @@ class UserAccount(AbstractUser):
     
 class Tag(models.Model):
     tag = models.CharField(max_length=100)
-    tag_id = models.AutoField(primary_key=True, unique=True)
+    tag_id = models.BigAutoField(primary_key=True, unique=True)
 
     def __str__(self):
         return self.tag
 
 class Book(models.Model):
-    item_id = models.AutoField(primary_key=True, unique=True)
+    item_id = models.BigAutoField(primary_key=True, unique=True)
     url = models.URLField(max_length=200)
     title = models.CharField(max_length=200)
-    authors = models.CharField(max_length=200)
+    authors = models.CharField(max_length=400)
     lang = models.CharField(max_length=50)
     img = models.URLField(max_length=200)
     year = models.IntegerField(blank=True, null=True)
@@ -41,7 +41,7 @@ class Book(models.Model):
         return round(total / num, 2)
     
 class Rating(models.Model):
-    item = models.OneToOneField(Book, on_delete=models.CASCADE, related_name='rating_item')
+    item = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='rating_item')
     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name='rating_user')
     rating = models.IntegerField()
 

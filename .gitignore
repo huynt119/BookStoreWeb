@@ -1,6 +1,7 @@
 # Ignore database files
 *.sqlite3
 *.sqlite3-journal
+*.pkl
 
 # Ignore sensitive or environment-specific configuration files
 .env

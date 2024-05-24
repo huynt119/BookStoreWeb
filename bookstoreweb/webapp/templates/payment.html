@@ -2,21 +2,20 @@
 <div class="container margin_floating">
     <div class="row" id="cart_parent">
         {% for book in books %}
-        <!-- <p>{{book.item_id}}</div>p> -->
             <p class="hidden_item_id">{{book.item_id}}</p>
             <div class="cart_child" id="cart_child_{{forloop.counter0}}">
                 <img src={{book.img}} alt="">
                 <div class="cart_child_info" id="cart_child_info_{{forloop.counter0}}">
                     <h1>{{ book.title }}</h1>
                     <div class="cart_child_info_price">
-                        <p>$<span class="cart_price">{{ book.price }}</span></p>
+                        <p style="color: #d70026; font-weight: bold;">$<span class="cart_price">{{ book.price }}</span></p>
                         <div class="cart_quantity">
-                            <button type="button" class="cart_quantity_btn_minus">-</button>
+                            <button type="button" class="cart_quantity_btn_minus" style="background-color: #edb83d; font-weight: bold;">-</button>
                             <p class="cart_quantity_number">1</p>
-                            <button type="button" class="cart_quantity_btn_plus">+</button>
+                            <button type="button" class="cart_quantity_btn_plus" style="background-color: #edb83d; font-weight: bold;">+</button>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger cart_delete_btn" data-item-id="{{ book.item_id }}">Delete</button>
+                    <button type="button" class="btn btn-danger cart_delete_btn" data-item-id="{{ book.item_id }}" style="background-color: #d70026;">Delete</button>
                 </div>
             </div>
         {% endfor %}
@@ -40,16 +39,6 @@
                     <input type="text" class="form-control" id="cvv" name="cvv" required>
                 </div>
                 <div class="form-group">
-                    <!-- Đừng làm như dưới -->
-                    <!--  ok
-                        Ý tưởng: lưu vào value dưới dạng json
-                        const send_info = document.getElementById("send_info")
-
-                        // cái này là array
-                        const hidden_item_id = Array.from(document.getElementsByClassName("hidden_item_id")).map(e => Number(e.innerHTML))
-                        // tạo hashmap với khóa là hidden_item_id (id hàng), giá trị là quantity của hàng tương ứng
-                        // chép vào value phía dưới
-                     -->
                     <input type="hidden" name="total_price_fake" value='
                         {
                             "amount": 100,
@@ -58,18 +47,14 @@
                     ' id="send_info">
 
                     <label>Total price</label>
-                    <p id="total_price_container">$<span id="total_price">0</span></p>
+                    <p id="total_price_container" style="color: #d70026; font-weight: bold; font-size: 36px;" >$<span id="total_price">0</span></p>
                 </div>
-                <button type="submit" class="btn btn-primary" value="Purchase">Pay</button>
+                <button type="submit" class="btn btn-primary" value="Purchase" style="background-color: #edb83d;">Pay</button>
             </form>
         </div>
     </div>
     
 </div>
-
-<!-- <form class="floating" action="/" method="post">
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form> -->
 
 <script>
 const total_price = document.getElementById("total_price");

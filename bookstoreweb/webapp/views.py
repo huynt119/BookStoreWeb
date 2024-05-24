@@ -35,10 +35,9 @@ def signin(request):
                 login(request, user)
                 #get recommend books
                 user_id = request.user.id
-                books = recommend_books(user_id, 10)
+                books = recommend_books(user_id, 15)
                 request.session["cart"] = []
                 request.session["rec_books"] = books
-                print(request.session["rec_books"])
                 return redirect("/")
             else: 
                 return render(request, 'signin.html', context)
@@ -54,7 +53,6 @@ def signin(request):
             for key in features:
                 if key in request.POST:
                     context[key] = request.POST[key]
-            print(signupform.errors)
             if signupform.is_valid():
             # Check if user exist on db
             # if not exist, save the user
@@ -141,16 +139,10 @@ def userprofile(request):
 
 @login_required(login_url= "signin")
 def add_to_cart(request, item_id):
-    print("fuck")
-    # book = get_object_or_404(Book, pk=item_id)
-    # book_id = book.item_id
-    # if book_id:
-    # print("session data: ", request.session['cart'])
     cart = request.session.get('cart', [])
     if item_id not in cart:
         cart.append(item_id)
     request.session['cart'] = cart
-    print("cart: ", request.session['cart'])
     messages.success(request, "Added successfully")
     return redirect(request.META['HTTP_REFERER'])
 
@@ -171,17 +163,12 @@ def payment(request):
 # @require_http_methods(["POST"])
 def purchase(request):
     total_amount = 0
-    # print("session data: ", request.session['cart'])
     user = request.user  # Assumes the user is logged in
     card_number = request.POST.get('card_number')
     expiry_date = request.POST.get('expiry_date')
     cvv = request.POST.get('cvv')
-    # total_price_info = json.loads(request.POST.get('total_price'))
-    # total_amount = total_price_info['amount']
 
     for key, value in request.POST.items():
-        # print("key: ", key)
-        # print("value: ", value)
         if key.startswith('book_'):
             book_id = int(key.split('_')[1])
             quantity = int(value)
@@ -189,14 +176,11 @@ def purchase(request):
             total_amount += book.price * quantity
             # Update session data or process as needed
             request.session['cart'][request.session['cart'].index(book_id)] = quantity
-            print("book id: ", book_id, " quantity: ", quantity)
             
     total_amount = Decimal(total_amount)
-    print("money: ", total_amount)
     # Create a transaction
     transaction = Transaction(user=user, amount=total_amount)
     transaction.save()
-    # print("data: ", request.session['cart'])
     
     for key, value in request.POST.items():
         if key.startswith('book_'):
@@ -223,30 +207,10 @@ def update_profile(request):
     
     return render(request, 'user.html', {'form': form})
 
-# @login_required(login_url= "signin")
-# def submit_rating(request, book_id):
-#     if request.method == 'POST':
-#         form = RatingForm(request.POST)
-#         if form.is_valid():
-#             rating = form.save(commit=False)
-#             rating.user = request.user
-#             rating.book_id = book_id
-#             rating.save()
-#             return redirect('book_detail', book_id=book_id)
-#     else:
-#         form = RatingForm()
-#     # handle invalid form or other method
-#     return redirect('book_detail', book_id=book_id)
-
-# take RESULT_PER_PAGE and DEFAULT_PAGE from above (get_page_range function)
 def search_results(request):
     query = request.GET.get('q', '')
     (offset, limit, page) = get_page_range(request)
-    # print("query: ", query)
-    # books = Book.objects.filter(title__icontains=query)
     data = Book.objects.filter(title__icontains=query)[offset:limit]
-    # print("result: ", books)
-    # return render(request, 'product.html', {'books': data})
     template = loader.get_template("product.html")
     context = {
         "books": data,
@@ -260,19 +224,13 @@ def search_results(request):
 def delete_from_cart(request):
     data = json.loads(request.body)
     item_id = data.get('item_id')
-    print("book to removed: ", item_id)
     cart = request.session.get('cart', [])
-    print("Cart: ",cart)
-    print(request.session['cart'].index(int(item_id)))
     del cart[request.session['cart'].index(int(item_id))]
     request.session['cart'] = cart
-    print("cart: ", request.session['cart'])
     return render(request, 'payment.html')
 
 def tagged_books_view(request, tag):
-    print("check tag: ", tag)
     tag_obj = get_object_or_404(Tag, tag=tag)
-    print("dcm: ",tag_obj.tag_id)
     # return render(request, 'books_by_tag.html', {'books': books, 'tag': tag})
     try:
         page = max(int(request.GET.get('page', DEFAULT_PAGE)), DEFAULT_PAGE)
@@ -281,8 +239,6 @@ def tagged_books_view(request, tag):
     offset = (page - 1) * RESULT_PER_PAGE
     limit = offset + RESULT_PER_PAGE
     books = Book.objects.filter(book_tags=tag_obj.tag_id)[offset:limit]
-    for book in books:
-        print("book: ", book.title)
     template = loader.get_template("product.html")
     context = {
         "books": books,
@@ -300,9 +256,6 @@ def rate_book(request):
         rating = request.POST.get('rating')
         user = request.user
         if user:
-            print("id: ", book_id)
-            print("rating: ", rating)
-            print("user: ", user.id)
             # Update the user's rating for the book.
             # This assumes you have a model named UserRating with fields user, book, and rating.
             Rating.objects.update_or_create(user=user, item_id=book_id, defaults={'rating': rating})

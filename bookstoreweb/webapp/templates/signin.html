@@ -13,17 +13,17 @@
                 <input id="password" type="password" placeholder="Enter Password" name="password" required {% if password %}value="{{password}}"{% endif %}>
 
                 <p>Don't have an account?<a href="javascript:void(0)" onclick="showForm('signupForm', false)">Sign Up</a></p>
-                <button type="submit" name="signin">Login</button>
+                <button type="submit" name="signin" style="background-color: #edb83d;">Login</button>
                 {% if signin_form.errors %}
                     <div class="errors">
                         <ul>
                             {% for field in signin_form %}
                                 {% for error in field.errors %}
-                                    <p style="color: red;">{{ error }}</p>
+                                    <p style="color: #d70026;">{{ error }}</p>
                                 {% endfor %}
                             {% endfor %}
                             {% for error in signin_form.non_field_errors %}
-                                <p style="color: red;">{{ error }}</p>
+                                <p style="color: #d70026;">{{ error }}</p>
                             {% endfor %}
                         </ul>
                     </div>
@@ -40,7 +40,7 @@
               <hr>
               <label for="username"><b>Username</b></label>
               <input type="text" placeholder="Enter your username" name="username" required {% if username %}value="{{username}}"{% endif %}>
-              <p style="color: red;" class="error">{{ signup_form.errors.username.as_text }}</p>
+              <p style="color: #d70026;" class="error">{{ signup_form.errors.username.as_text }}</p>
 
               <label for="first_name"><b>First name</b></label>
               <input type="text" placeholder="Enter your first name" name="first_name" required {% if first_name %}value="{{first_name}}"{% endif %}>
@@ -50,25 +50,25 @@
 
               <label for="email"><b>Email</b></label>
               <input type="text" placeholder="Enter Email" name="email" required {% if email %}value="{{email}}"{% endif %}>
-              <p style="color: red;" class="error">{{ signup_form.errors.email.as_text }}</p>
+              <p style="color: #d70026;" class="error">{{ signup_form.errors.email.as_text }}</p>
 
               <label for="phone_num"><b>Phone number</b></label>
               <input type="text" placeholder="Enter phone number" name="phone_num" required {% if phone_num %}value="{{phone_num}}"{% endif %}>
           
               <label for="password"><b>Password</b></label>
               <input type="password" placeholder="Enter Password" name="password" required {% if password %}value="{{password}}"{% endif %}>
-              <p style="color: red;" class="error">{{ signup_form.errors.password.as_text }}</p>
+              <p style="color: #d70026;" class="error">{{ signup_form.errors.password.as_text }}</p>
           
               <label for="password_repeat"><b>Repeat Password</b></label>
               <input type="password" placeholder="Repeat Password" name="password_repeat" required {% if password_repeat %}value="{{password_repeat}}"{% endif %}>
               {% for error in signup_form.non_field_errors %}
-                <p style="color: red;" class="error">{{ error }}</p>
+                <p style="color: #d70026;" class="error">{{ error }}</p>
               {% endfor %}
               <p>Already have an account.<a href="javascript:void(0)" onclick="showForm('signinForm', false)">Sign In</a></p>
           
               <div class="clearfix">
-                <button type="button" class="cancelbtn">Cancel</button>
-                <button type="submit" class="signupbtn" name="signup">Sign Up</button>
+                <button type="button" class="cancelbtn" style="background-color: #d70026;" >Cancel</button>
+                <button type="submit" class="signupbtn" name="signup" style="background-color: #edb83d;">Sign Up</button>
               </div>
             </div>
           </form>
@@ -94,16 +94,9 @@
             } else if (formId === 'signupForm') {
                 if (!showError) {
                     const errorP = document.getElementsByClassName("error");
-                    // if (errorP) {
-                    //     // var paragraphs = errorDiv.querySelectorAll("p");
-                    //     for (var i = 0; i < errorP.length; i++) {
-                    //         errorP[i].innerHTML = "";
-                    //     }
-                    // }
                     for (var i = 0; i < errorP.length; i++) {
                         console.log(errorP[i].innerHTML)
                         errorP[i].innerHTML = "";
-                        // errorP[i].remove();
                     }
                 }
                 signinForm.classList.remove('active');

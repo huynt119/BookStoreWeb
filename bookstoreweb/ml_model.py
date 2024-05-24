@@ -79,7 +79,7 @@ def predict_rating(user_id, item_id, tfidf, W, b, book_id_to_index, user_id_to_i
     item_idx = book_id_to_index[item_id]
     return tfidf[item_idx, :].dot(W[:, user_idx]) + b[0, user_idx]
 
-def recommend_books(user_id, num_recommendations = 10):
+def recommend_books(user_id, num_recommendations):
     rated_books, true_ratings = get_items_rated_by_user(user_id)
     tfidf, book_id_to_index, user_id_to_index = query_to_vct_features()
 

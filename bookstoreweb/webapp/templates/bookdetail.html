@@ -8,8 +8,8 @@
             {% for tag in tags %}
                 <a href="{% url 'tagged_books' tag.tag %}" class="tag">{{ tag.tag }}</a>
             {% endfor %}
-            <p class="price">Price: ${{ book.price }}</p>
-            <a class="book_detail_add_to_cart" href="{% url 'add_to_cart' book.item_id %}">Add to cart</a>
+            <p class="price">${{ book.price }}</p>
+            <a class="book_detail_add_to_cart" href="{% url 'add_to_cart' book.item_id %}" style="background-color: #EDB83d;">Add to cart</a>
         </div>
     </div>
     
@@ -43,11 +43,11 @@
                     <img id="star4-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="4" class="star">
                     <img id="star5-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="5" class="star">
                 </div>
-                <!-- <p class="user-comment">{% lorem 20 w %}</p> -->
             </div>
         {% endfor %}
     </div>
 </div>
+{% include "partials/rec_books.html" %} 
 <script>
     window.onload = function() {
         var rating = document.getElementById('rating').value;
@@ -95,6 +95,7 @@
         align-items: center;
         margin-bottom: 20px;
         background-color: white;
+        border-radius: 5px;
     }
 
     .book-image {

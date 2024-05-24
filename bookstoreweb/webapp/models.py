@@ -53,10 +53,10 @@ class Rating(models.Model):
         return ratings
     
     # Get 10 books have highest ovr rate score
-    def get_top_rated_books(limit=10):
+    def get_top_rated_books(limit=15):
         top_books = (
             Book.objects.annotate(num_ratings=Count('rating_item'))
-            .order_by('-num_ratings')[:10]
+            .order_by('-num_ratings')[:15]
         )
         return top_books
 

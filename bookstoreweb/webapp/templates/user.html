@@ -1,0 +1,120 @@
+{% include 'partials/header.html' %}
+<div class="container">
+    <h1>User Profile: {{ user.get_full_name }}</h1>
+    <div class="user-details">
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone:</strong> {{ user.phone_num }}</p>
+        <p><strong>Address:</strong> {{ user.address }}</p>
+    </div>
+
+    <!-- Button to Toggle the Edit Form -->
+    <button class="edit-button" onclick="toggleEditForm()" style="background-color: #edb83d;">Edit Profile</button>
+
+    <!-- Form for updating user details -->
+    <div id="editForm" style="display:none;" class="edit-form">
+        <form method="POST" action="{% url 'update_profile' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save-changes" style="background-color: #edb83d;">Save Changes</button>
+        </form>
+    </div>
+
+    <h2>Transaction History</h2>
+    {% if transaction %}
+        <div class="transactions">
+            {% for data in transaction %}
+                <div class="transaction">
+                    <p><strong>Date:</strong> {{ data.transaction.date|date:"Y-m-d H:i" }}</p>
+                    <p><strong>Total Price:</strong> ${{ data.transaction.amount }}</p>
+                    <ul class="history-books">
+                        {% for book_quantity in data.book_quantities %}
+                            <li class="history-book">{{ book_quantity.book.title }} - Quantity: {{ book_quantity.quantity }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No transactions found.</p>
+    {% endif %}
+    
+    <form action="{% url 'logout' %}" method="post" class="logout-form">
+        {% csrf_token %}
+        <button type="submit" class="logout-button" style="background-color: #d70026;">Logout</button>
+    </form>
+</div>
+
+<script>
+    function toggleEditForm() {
+        var form = document.getElementById("editForm");
+        form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+</script>
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    .user-details p, .transaction p {
+        margin: 5px 0;
+        color: #333;
+    }
+
+    .edit-button, .save-changes, .logout-button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 10px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .edit-button {
+        background-color: #008CBA; /* Blue */
+    }
+
+    .logout-button {
+        background-color: #f44336; /* Red */
+    }
+
+    .edit-form {
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    .transactions {
+        background-color: #e2e2e2;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    .history-books {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .history-books .history-book {
+        background: #fff;
+        padding: 5px;
+        margin-top: 5px;
+        border-radius: 3px;
+    }
+
+    .logout-form {
+        margin-top: 20px;
+    }
+</style>
+{% include 'partials/footer.html' %}

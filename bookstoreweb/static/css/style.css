@@ -1,0 +1,1107 @@
+/* Style the navigation bar */
+.navbar {
+    width: 100%;
+    background-color: #555;
+    overflow: auto;
+  }
+  
+/* Navbar links */
+.navbar a {
+    float: left;
+    text-align: center;
+    padding: 15px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+}
+  
+/* Navbar links on mouse-over */
+.navbar a:hover {
+    background-color: #000;
+}
+
+/* .navbar-search {
+  float: right;
+} */
+
+/* Current/active navbar link */
+.active {
+    background-color: #04AA6D;
+    display: block !important;
+}
+
+/* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
+@media screen and (max-width: 500px) {
+    .navbar a {
+        float: none;
+        display: block;
+    }
+}
+
+/* body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+} */
+header {
+    background-color: #000b29;
+    color: #f8f5f2;
+    padding: 5px;
+    text-align: center;
+    display: flex;
+}
+nav {
+    width: 100%;
+    /* background-color: #666; */
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    
+}
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.header_a {
+      margin-left: auto;
+}
+nav form {
+    display: flex;
+    margin-left: 0;
+    width: 50%;
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+    width: 40%;
+}
+.book {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.book img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* html, body {
+  position: relative;
+  height: 100%;
+  width: 100%;
+} */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #e4c59e;
+}
+
+.container {
+    background-color: #fff;
+    /* width: 40%; */
+    width: calc(80% - 40px);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.form-group input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.footer {
+  background-color: #000b29;
+  color: #f8f5f2;
+  padding: 20px 0;
+  /* text-align: center; */
+  height: 10%;
+}
+
+.footer h3 {
+  margin-bottom: 20px;
+}
+
+.footer ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 10px;
+}
+
+.footer ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer ul li i {
+  margin-right: 10px;
+}
+
+.footer_container {
+  margin-left: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 50%;
+}
+
+.col-md-6 {
+  margin-left: 30px;
+}
+.signin_form {
+  background-color: #edb83d;
+}
+
+#book_container {
+    /* border: 1px solid black; */
+    display: grid;
+    grid-template-columns: auto auto;
+    height: 100%;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* max-width: 300px; */
+    width: 20%;
+    height: 100%;
+    position: relative;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+    /* border: 1px solid black; */
+}
+
+.price {
+    color: #d70026;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.card button:hover {
+  opacity: 0.7;
+}
+
+
+.book_detail_signin {
+  padding: 0;
+}
+  article {
+    --img-scale: 1.001;
+    --title-color: black;
+    --link-icon-translate: -20px;
+    --link-icon-opacity: 0;
+    position: relative;
+    /* border-radius: 16px; */
+    box-shadow: none;
+    /* background: #fff; */
+    transform-origin: center;
+    transition: all 0.4s ease-in-out;
+    overflow: hidden;
+
+    height: 480px;
+  }
+  
+  article a::after {
+    /* position: absolute;  */
+    inset-block: 0;
+    inset-inline: 0;
+    cursor: pointer;
+    content: "";
+  }
+  
+  /* basic article elements styling */
+  article h2 {
+    position: relative;
+    margin: 0 0 18px 0;
+    font-family: sans-serif;
+    font-size: 1.0rem;
+    letter-spacing: 0.06em;
+    color: var(--title-color);
+    transition: color 0.3s ease-out;
+
+    height: 50%;
+    width: 100%;
+    overflow: hidden;
+    /* overflow-y: auto; */
+
+  }
+
+  figure {
+    margin: 0;
+    padding: 0;
+    /* aspect-ratio: 16 / 9; */
+    overflow: hidden;
+  }
+
+  
+  body {
+    margin: 0;
+    /* padding: 48px 0; */
+    font-family: "Figtree", sans-serif;
+    font-size: 1.2rem;
+    min-height: 100vh;
+    /* background-image: linear-gradient(45deg, #7c9885, #b5b682);
+    background-repeat: no-repeat;
+    background-attachment: fixed; */
+    background: #edb83d;
+  }
+  
+  .articles {
+    display: grid;
+    /* max-width: 1200px; */
+    /* 300px from aside of product */
+    max-width: calc(100% - 300px);
+    margin-inline: auto;
+    padding-inline: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    float: left;
+  }
+  
+  @media screen and (max-width: 960px) {
+    article {
+      container: card/inline-size;
+    }
+    .article-body p {
+      /* display: none; */
+    }
+  }
+  
+  @container card (min-width: 380px) {
+    .article-wrapper {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 16px;
+    }
+    .article-body {
+      padding-left: 0;
+    }
+    figure {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    figure img {
+      height: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+  }
+  
+  .sr-only:not(:focus):not(:active) {
+    clip: rect(0 0 0 0); 
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap; 
+    width: 1px;
+  }
+
+  .read-more{
+    bottom: 0;
+    padding-left: 0;
+  }
+
+/* Bordered form */
+/* Bordered form */
+/* form {
+  border: 3px solid #f1f1f1;
+} */
+
+/* Full-width inputs */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Add a hover effect for buttons */
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra style for the cancel button (red) */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the avatar image inside this container */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+}
+
+/* Avatar image */
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+/* Add padding to containers */
+.container {
+  padding: 16px;
+}
+
+/* The "Forgot password" text */
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+    display: block;
+    float: none;
+  }
+  .cancelbtn {
+    width: 100%;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+* {box-sizing: border-box}
+
+/* Full-width input fields */
+  input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add padding to container elements */
+.container {
+  padding: 16px;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtn, .signupbtn {
+    width: 100%;
+  }
+}
+
+.name-inputs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.name-inputs label {
+  flex: 1;
+  margin-right: 10px; /* Điều chỉnh khoảng cách giữa các label */
+}
+
+.name-inputs input {
+  flex: 2; /* Chỉnh sửa để điều chỉnh độ rộng của input */
+}
+
+#signinForm, #signupForm {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+#prev, #next:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: #000b29;
+  color: #f8f5f2;
+}
+
+.round {
+  border-radius: 50%;
+}
+
+/* cart */
+#cart_parent {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+  justify-content: center;
+}
+
+#cart_parent > .cart_child {
+  position: relative;
+  height: 480px;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+
+  background-color: #f1f1f1;
+  border-radius: 6px;
+  padding: 12px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+#cart_parent > .cart_child > img {
+  /* display: absolute; */
+  width: calc(100% / 2);
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+#cart_parent > .cart_child > .cart_child_info {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+#cart_parent > .cart_child > .cart_child_info > h1 {
+  margin-bottom: 24px;
+  font-weight: bolder;
+  line-height: 3.25rem;
+
+  height: 70%;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+#cart_parent > .cart_child > .cart_child_info > .cart_child_info_price {
+  border-top: 1px solid black;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+#cart_parent > .cart_child > .cart_child_info > .cart_child_info_price > .cart_quantity {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#cart_parent > .cart_child > .cart_child_info > .cart_child_info_price > .cart_quantity > p {
+  margin: 0 12px;
+}
+
+.hidden_item_id {
+  display: none;
+} 
+
+#total_price_container {
+  font-weight: normal;
+}
+
+.cart_quantity_btn_plus, .cart_quantity_btn_minus {
+  background-color: #04AA6D;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.product_aside {
+  float: left;
+}
+
+.product_search {
+  position: relative;
+  margin: 12px 0;
+  /* width: calc(100% - 300px - 48px); */
+  width: calc(100% - 48px);
+  margin-left: 24px;
+  height: auto;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.product_search > * {
+  border-radius: 5px;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.product_search > button {
+  height: 45px;
+  width: calc(45px / 3 * 4);
+}
+
+.product_search > input {
+  height: 45px;
+  flex: 1;
+  padding: 0 12px !important;
+}
+
+/* .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+} */
+
+.dropdown {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+
+.dropdown_menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: calc(-100% - 5px);
+
+  /* height: 200px; */
+  /* height: auto; */
+  max-height: calc(100vh - 500px - 32px);
+  width: 500px;
+
+  overflow: scroll;
+
+  background: white;
+  outline: 1px solid black;
+  box-shadow: 0 21rem 87rem 0 rgba(42,44,58,.15), 11.737rem 22.074rem 32rem 0 rgba(129,165,238,.1);
+  border-radius: 6px;
+  padding: 6px;
+
+  z-index: 999;
+  cursor: default;
+
+  color: black;
+}
+
+.dropdown > a:first-child {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 6px 6px 0 0;
+  transition: background-color 0.3s;
+}
+
+.dropdown:hover > a:first-child {
+  background-color: #f1f1f1;
+  outline: 1px solid black;
+  color: black;
+}
+
+.dropdown:hover > .dropdown_menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  /* Change to flex */
+}
+
+.dropdown_menu > a {
+  color: black;
+  transition: opacity 0.3s;
+}
+
+.dropdown_menu:hover > a {
+  opacity: 0.4;
+}
+
+.dropdown_menu:hover > a:hover {
+  opacity: 1;
+}
+
+.product_page_body {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  /* margin-bottom: 144px; */
+  box-sizing: content-box;
+  padding-bottom: 144px;
+}
+
+#latest_books_card {
+  display: flex;
+  flex-wrap: wrap;
+  /* gap: 12px; */
+  /* justify-content: center; */
+}
+
+#latest_books_card > img {
+  width: 40%;
+  height: auto;
+}
+
+#latest_books_card > h5 {
+  margin-left: 10px;
+  width: 50%;
+  margin-top: 0
+}
+
+aside {
+  /* margin-top: 200px; */
+  width: 350px; /* Set the width of the aside */
+  padding: 20px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a border */
+  border-radius: 5px; /* Add some border radius */
+  box-shadow: 0 21rem 87rem 0 rgba(42,44,58,.15), 11.737rem 22.074rem 32rem 0 rgba(129,165,238,.1); /* Add some box shadow */
+  /* position: fixed; Make the aside always stay in the same place */
+  right: 0; /* Position the aside on the right */
+  top: 0; /* Position the aside at the top */
+  overflow-y: auto; /* Add a scrollbar if the content is too long */
+  /* height: 100%; Make the aside take up the full height of the page */
+  background: #f8f5f2;
+  /* display: flex; */
+}
+
+aside h2 {
+  margin-bottom: 10px; /* Add some margin to the bottom of the h2 */
+}
+
+aside div {
+  margin-bottom: 10px; /* Add some margin to the bottom of each book */
+}
+
+aside img {
+  width: 50%; /* Make the images take up the full width of the aside */
+  height: auto; /* Keep the original aspect ratio of the images */
+}
+
+aside a {
+  color: #007BFF; /* Change the color of the links */
+  text-decoration: none; /* Remove the underline from the links */
+}
+
+aside a:hover {
+  color: #0056b3; /* Change the color of the links when hovered */
+}
+
+#homepage {
+  color: #fafafa;
+}
+
+#homepage:hover {
+  color: #f1f1f1;
+}
+
+.article-wrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: #f8f5f2;
+  border-radius: 12px;
+}
+
+.product_article_figure {
+  margin-bottom: 12px;
+  height: calc(70% - 12px);
+}
+
+.product_article_figure img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  /* object-position: top; */
+}
+
+#prev, #next {
+  position: absolute;
+  bottom: 0px;
+  transform: translateX(-50%);
+}
+
+#prev {
+  left: calc(50% - 54px);
+}
+
+#next {
+  left: calc(50% + 54px);
+}
+
+.article-body {
+  position: relative;
+  margin: 0 60px;
+  height: 30%;
+  overflow: auto;
+}
+
+.article-body > * {
+  margin: 0;
+}
+
+.article-body > h2 {
+  font-weight: normal;
+  font-family: sans-serif;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  max-height: 38%;
+}
+
+.article-body > .price {
+  color: #d70026;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.article_util {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.article_util > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product_cart_icon {
+  fill: black;
+  height: 24px;
+  width: 24px;
+}
+
+.top_heading_margin {
+  margin-left: 24px;
+}
+
+.book_detail_add_to_cart {
+  padding: 0;
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+  font-size: 16px;
+  border-radius: 12px;
+}
+
+.book_detail_add_to_cart:hover {
+  opacity: 0.8;
+}
+
+#sign_in_book_detail:hover {
+  text-decoration: underline;
+}
+
+#book-info-title {
+  line-height: 1em;
+}
+
+.home-container {
+  display: flex;
+  /* border: 5px solid white; */
+}
+
+#home-section {
+  background-color: #edb83d;
+  height: auto;
+  width: 100%;
+  max-width: calc(100% - 300px);
+  /* display: flex; */
+  padding-left: 30px;
+}
+
+/* .rec_part {
+  margin-left: 30px;
+} */
+
+.wrapper { 
+  width: 100%; 
+  position: relative; 
+  border: solid #d70026;
+  background-color: #d70026;
+} 
+
+/* .rec-part-product {
+  margin-left: 50%;
+  transform: translateX(-40%);
+  width: 100%;
+} */
+
+.wrapper i { 
+  height: 50px; 
+  width: 50px; 
+  background: rgb(118, 233, 118); 
+  text-align: center; 
+  line-height: 50px; 
+  border-radius: 50%; 
+  cursor: pointer; 
+  position: absolute; 
+  top: 50%; 
+  font-size: 1.25 rem; 
+  transform: translateY(-50%); 
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23); 
+
+} 
+
+.carousel {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.wrapper i:first-child { 
+  left: 0; 
+
+} 
+
+.wrapper i:last-child { 
+  right: 0; 
+} 
+
+.wrapper .carousel { 
+  display: grid; 
+  grid-auto-flow: column; 
+  grid-auto-columns: calc((100% / 7)); 
+  gap: 40px; 
+  overflow-x: auto; 
+  scroll-snap-type: x mandatory; 
+  scroll-behavior: smooth; 
+  scrollbar-width: 0; 
+} 
+
+.carousel::-webkit-scrollbar { 
+  display: none; 
+} 
+
+.wrapper h3 {
+  margin-left: 50px;
+}
+.carousel :where(.rec-card, .img) { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+} 
+
+.carousel.dragging { 
+  scroll-snap-type: none; 
+  scroll-behavior: auto; 
+} 
+
+.carousel.no-transition { 
+  scroll-behavior: auto; 
+} 
+
+.carousel.dragging .rec-card { 
+  cursor: grab; 
+  user-select: none; 
+} 
+
+.carousel .rec-card { 
+  scroll-snap-align: start; 
+  height: 100%; 
+  list-style: none; 
+  background: #f8f5f2; 
+  border-radius: 8px; 
+  display: flex; 
+  cursor: pointer; 
+  /* width: 80%;  */
+  /* padding-bottom: 15px;  */
+  align-items: center; 
+  justify-content: center; 
+  flex-direction: column; 
+  /* margin-left: 60px; */
+} 
+
+.rec-card .img { 
+  /* background: green;  */
+  /* width: 145px;  */
+  height: 50%; 
+  /* border-radius: 50%;  */
+
+} 
+
+.rec-card .img img { 
+  /* width: 140px;  */
+  /* height: 50%;  */
+  object-fit: cover; 
+  /* border-radius: 50%;  */
+  border: 4px solid #fff; 
+} 
+
+.rec-card h4 { 
+  font-weight: 100; 
+  font-size: 1.1rem; 
+  /* margin: 20px 30px 5px;  */
+  text-align: center;
+} 
+
+.rec-card span { 
+  color: #6a6d78; 
+  font-size: 1.31rem; 
+
+} 
+
+@media screen and (max-width: 900px) { 
+  .wrapper .carousel { 
+      grid-auto-columns: calc((100% / 2) - 9px); 
+
+  } 
+} 
+
+@media screen and (max-width: 600px) { 
+  .wrapper .carousel { 
+      grid-auto-columns: 100%; 
+
+  } 
+}
+
+#showcase_video_in {
+  position: relative;
+  border: 5px solid #edb83d;
+  /* right: 350px; */
+  bottom: 0;
+  border-radius: 20px;
+}
+
+.intro {
+  border: 5px solid #f8f5f2;
+  margin: 10px;
+  background-color: #f8f5f2;
+  padding: 10px;
+  display: flex;
+  border-radius: 20px;
+}

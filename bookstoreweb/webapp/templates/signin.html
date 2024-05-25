@@ -1,0 +1,116 @@
+{% include 'partials/header.html' %}
+<p id="event" style="display: none;">{{event}}</p>
+    <div id="signinForm">
+        <form action="" method="post" class="signin_form">
+            {% csrf_token %}
+            <div class="container">
+                <h1>Sign In</h1>
+                <hr>
+                <label for="username"><b>Username</b></label>
+                <input id= "username" type="text" placeholder="Enter your username" name="username" required {% if username %}value="{{username}}"{% endif %}>
+            
+                <label for="password"><b>Password</b></label>
+                <input id="password" type="password" placeholder="Enter Password" name="password" required {% if password %}value="{{password}}"{% endif %}>
+
+                <p>Don't have an account?<a href="javascript:void(0)" onclick="showForm('signupForm', false)">Sign Up</a></p>
+                <button type="submit" name="signin" style="background-color: #edb83d;">Login</button>
+                {% if signin_form.errors %}
+                    <div class="errors">
+                        <ul>
+                            {% for field in signin_form %}
+                                {% for error in field.errors %}
+                                    <p style="color: #d70026;">{{ error }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in signin_form.non_field_errors %}
+                                <p style="color: #d70026;">{{ error }}</p>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    <div id="signupForm">
+        <form action="" style="border:1px solid #ccc" method="post" class="signin_form">
+            {% csrf_token %}
+            <div class="container">
+              <h1>Sign Up</h1>
+              <p>Please fill in this form to create an account.</p>
+              <hr>
+              <label for="username"><b>Username</b></label>
+              <input type="text" placeholder="Enter your username" name="username" required {% if username %}value="{{username}}"{% endif %}>
+              <p style="color: #d70026;" class="error">{{ signup_form.errors.username.as_text }}</p>
+
+              <label for="first_name"><b>First name</b></label>
+              <input type="text" placeholder="Enter your first name" name="first_name" required {% if first_name %}value="{{first_name}}"{% endif %}>
+
+              <label for="last_name"><b>Last name</b></label>
+              <input type="text" placeholder="Enter your last name" name="last_name" required {% if last_name %}value="{{last_name}}"{% endif %}>
+
+              <label for="email"><b>Email</b></label>
+              <input type="text" placeholder="Enter Email" name="email" required {% if email %}value="{{email}}"{% endif %}>
+              <p style="color: #d70026;" class="error">{{ signup_form.errors.email.as_text }}</p>
+
+              <label for="phone_num"><b>Phone number</b></label>
+              <input type="text" placeholder="Enter phone number" name="phone_num" required {% if phone_num %}value="{{phone_num}}"{% endif %}>
+          
+              <label for="password"><b>Password</b></label>
+              <input type="password" placeholder="Enter Password" name="password" required {% if password %}value="{{password}}"{% endif %}>
+              <p style="color: #d70026;" class="error">{{ signup_form.errors.password.as_text }}</p>
+          
+              <label for="password_repeat"><b>Repeat Password</b></label>
+              <input type="password" placeholder="Repeat Password" name="password_repeat" required {% if password_repeat %}value="{{password_repeat}}"{% endif %}>
+              {% for error in signup_form.non_field_errors %}
+                <p style="color: #d70026;" class="error">{{ error }}</p>
+              {% endfor %}
+              <p>Already have an account.<a href="javascript:void(0)" onclick="showForm('signinForm', false)">Sign In</a></p>
+          
+              <div class="clearfix">
+                <button type="button" class="cancelbtn" style="background-color: #d70026;" >Cancel</button>
+                <button type="submit" class="signupbtn" name="signup" style="background-color: #edb83d;">Sign Up</button>
+              </div>
+            </div>
+          </form>
+    </div>
+
+    <script>
+        const signinForm = document.getElementById('signinForm');
+        const signupForm = document.getElementById('signupForm');
+
+        function showForm(formId, showError) {
+            if (formId === 'signinForm') {
+                if (!showError){
+                    errorDiv = signinForm.querySelector(".errors");
+                    if (errorDiv) {
+                        var paragraphs = errorDiv.querySelectorAll("p");
+                        for (var i = 0; i < paragraphs.length; i++) {
+                            paragraphs[i].innerHTML = "";
+                        }
+                    }
+                }
+                signinForm.classList.add('active');
+                signupForm.classList.remove('active');
+            } else if (formId === 'signupForm') {
+                if (!showError) {
+                    const errorP = document.getElementsByClassName("error");
+                    for (var i = 0; i < errorP.length; i++) {
+                        console.log(errorP[i].innerHTML)
+                        errorP[i].innerHTML = "";
+                    }
+                }
+                signinForm.classList.remove('active');
+                signupForm.classList.add('active');
+            }
+
+        }
+        event = document.getElementById('event')
+        if (event.innerHTML === 'signinForm' || event.innerHTML === ""){
+            showForm('signinForm', true)
+        }
+        else {
+            showForm('signupForm', true)
+        }
+    </script>
+
+{% include 'partials/footer.html' %}

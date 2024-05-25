@@ -1,0 +1,15 @@
+<aside class="product_aside">
+    <h2 style="color: #000b29;">Latest Books</h2>
+    {% for book in latest_books %}
+        <div>
+            <a href="{% url 'book_detail' book.item_id %}" id="latest_books_card">
+                <img src="{{ book.img }}" alt="{{ book.title }}">
+                <h5 style="color: #000b29;">{{ book.title }}
+                    <br><br>
+                    <span style="color: #d70026;">${{ book.price }}</span>
+                </h5>
+            </a>
+            <p>{{ book.author }}</p>
+        </div>
+    {% endfor %}
+</aside>

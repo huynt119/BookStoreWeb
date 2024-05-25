@@ -1,0 +1,135 @@
+{% include 'partials/header.html' %}
+<div class="container margin_floating">
+    <div class="row" id="cart_parent">
+        {% for book in books %}
+            <p class="hidden_item_id">{{book.item_id}}</p>
+            <div class="cart_child" id="cart_child_{{book.item_id}}">
+                <img src={{book.img}} alt="">
+                <div class="cart_child_info" id="cart_child_info_{{forloop.counter0}}">
+                    <h1>{{ book.title }}</h1>
+                    <div class="cart_child_info_price">
+                        <p style="color: #d70026; font-weight: bold;">$<span class="cart_price">{{ book.price }}</span></p>
+                        <div class="cart_quantity">
+                            <button type="button" class="cart_quantity_btn_minus" style="background-color: #edb83d; font-weight: bold;">-</button>
+                            <p class="cart_quantity_number">1</p>
+                            <button type="button" class="cart_quantity_btn_plus" style="background-color: #edb83d; font-weight: bold;">+</button>
+                        </div>
+                    </div>
+                    <button id="delete" type="button" class="btn btn-danger cart_delete_btn" data-item-id="{{ book.item_id }}" style="background-color: #d70026;">Delete</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Payment</h1>
+            <form id="purchase_form" action="{% url 'purchase' %}" method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="card_number">Card Number</label>
+                    <input type="text" class="form-control" id="card_number" name="card_number" required>
+                </div>
+                <div class="form-group">
+                    <label for="expiry_date">Expiry Date</label>
+                    <input type="text" class="form-control" id="expiry_date" name="expiry_date" required>
+                </div>  
+                <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input type="text" class="form-control" id="cvv" name="cvv" required>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="total_price_fake" value='
+                        {
+                            "amount": 100,
+                            "currency": "USD"
+                        }
+                    ' id="send_info">
+
+                    <label>Total price</label>
+                    <p id="total_price_container" style="color: #d70026; font-weight: bold; font-size: 36px;" >$<span id="total_price">0</span></p>
+                </div>
+                <button type="submit" class="btn btn-primary" value="Purchase" style="background-color: #edb83d;">Pay</button>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+const total_price = document.getElementById("total_price");
+
+const cart_quantity_number = document.getElementsByClassName("cart_quantity_number");
+const cart_price = document.getElementsByClassName("cart_price");
+
+const minus_button = document.getElementsByClassName("cart_quantity_btn_minus");
+const plus_button = document.getElementsByClassName("cart_quantity_btn_plus");
+
+function get_total_price() {
+    let total = 0;
+
+    for (let i = 0; i < cart_quantity_number.length; i++) {
+        total += Number(cart_quantity_number[i].innerHTML) * Number(cart_price[i].innerHTML);
+    }
+
+    return total.toFixed(2);
+}
+
+total_price.innerHTML = get_total_price();
+
+for (const button of minus_button) {
+    button.addEventListener('click', (e) => {
+        const p = e.target.nextElementSibling;
+        p.innerHTML = Math.max(Number(p.innerHTML) - 1, 1)
+        total_price.innerHTML = get_total_price();
+    })
+}
+
+for (const button of plus_button) {
+    button.addEventListener("click", (e) => {
+        const p =  e.target.previousElementSibling;
+        p.innerHTML = Number(p.innerHTML) + 1;
+        total_price.innerHTML = get_total_price();
+    })
+}
+
+document.getElementById('purchase_form').addEventListener('submit', function() {
+    const itemIds = Array.from(document.getElementsByClassName('hidden_item_id'));
+    const quantities = Array.from(document.getElementsByClassName('cart_quantity_number'));
+
+    itemIds.forEach((itemId, index) => {
+        const quantityInput = document.createElement('input');
+        quantityInput.type = 'hidden';
+        quantityInput.name = 'book_' + itemId.textContent;  // Ensure the name is unique per book
+        quantityInput.value = quantities[index].textContent;
+        this.appendChild(quantityInput);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteButtons = document.getElementsByClassName("cart_delete_btn");
+
+    for (const button of deleteButtons) {
+        button.addEventListener('click', function () {
+            const itemId = this.getAttribute("data-item-id");
+            console.log("clicked: ", itemId)
+            fetch("{% url 'delete_from_cart' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ item_id: itemId })
+            })
+            .then(() => {
+                // if (data.success) {
+                document.getElementById("cart_child_" + itemId).remove();
+                total_price.innerHTML = get_total_price();
+                // }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+});
+</script>
+{% include 'partials/footer.html' %}

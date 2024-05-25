@@ -1,0 +1,165 @@
+{% include 'partials/header.html' %}
+<div class="book-container">
+    <div class="book-header">
+        <img src={{ book.img }} alt="Cover image of {{ book.title }}" class="book-image">
+        <div class="book-info">
+            <h1 id="book-info-title">{{ book.title }}</h1>
+            <p class="authors">By: {{ book.authors }}</p>
+            {% for tag in tags %}
+                <a href="{% url 'tagged_books' tag.tag %}" class="tag">{{ tag.tag }}</a>
+            {% endfor %}
+            <p class="price">${{ book.price }}</p>
+            <a class="book_detail_add_to_cart" href="{% url 'add_to_cart' book.item_id %}" style="background-color: #EDB83d;">Add to cart</a>
+        </div>
+    </div>
+    
+    <div class="book-description">
+        <h2>Description</h2>
+        <p>{{ book.description }}</p>
+    </div>
+    <div class="book-rating">
+        <h2>Rating: {{ avr_rate }}</h2>
+        <h3>Rate this book:</h3>
+        <div class="star-rating">
+            {% if user.is_authenticated %}
+            <img id="star1" src="/static/images/star_empty.png" alt="1" class="user_star" onclick="setRating(1)">
+            <img id="star2" src="/static/images/star_empty.png" alt="2" class="user_star" onclick="setRating(2)">
+            <img id="star3" src="/static/images/star_empty.png" alt="3" class="user_star" onclick="setRating(3)">
+            <img id="star4" src="/static/images/star_empty.png" alt="4" class="user_star" onclick="setRating(4)">
+            <img id="star5" src="/static/images/star_empty.png" alt="5" class="user_star" onclick="setRating(5)">
+            {% else %}
+            <p>Please <a class="book_detail_signin" id="sign_in_book_detail" href="{% url 'signin' %}">sign in</a> to rate this book.</p>
+            {% endif %}
+        </div>
+        <input type="hidden" id="rating" name="rating" value="{% if user_rating %}{{ user_rating.rating }}{% else %}0{% endif %}">
+        {% for rate in ratings %}
+            <div class="user-rating" data-rating="{{ rate.rating }}">
+                <strong>{{ rate.user }}</strong>
+                <p>Rated: {{ rate.rating }}</p>
+                <div class="star-rating">
+                    <img id="star1-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="1" class="star">
+                    <img id="star2-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="2" class="star">
+                    <img id="star3-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="3" class="star">
+                    <img id="star4-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="4" class="star">
+                    <img id="star5-{{ forloop.counter }}" src="/static/images/star_empty.png" alt="5" class="star">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% include "partials/rec_books.html" %} 
+<script>
+    window.onload = function() {
+        var rating = document.getElementById('rating').value;
+        for (var i = 1; i <= rating; i++) {
+            document.getElementById('star' + i).src = '/static/images/star_filled.png';
+        }
+
+        var userRatings = document.getElementsByClassName('user-rating');
+        for (var i = 0; i < userRatings.length; i++) {
+            var rating = userRatings[i].getAttribute('data-rating');
+            for (var j = 1; j <= rating; j++) {
+                document.getElementById('star' + j + '-' + (i + 1)).src = '/static/images/star_filled.png';
+            }
+        }
+    };
+
+    function setRating(rating) {
+        const stars = document.querySelectorAll('.user_star');
+        const ratingInput = document.getElementById('rating');
+        ratingInput.value = rating;  // Update the hidden input value for form submission
+
+        stars.forEach((star, index) => {
+            star.src = index < rating ? '/static/images/star_filled.png' : '/static/images/star_empty.png';
+        });
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/rate_book/', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.send('item_id={{ book.item_id }}&rating=' + rating);
+    }
+</script>
+{% include 'partials/footer.html' %}
+
+<style>
+    .book-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        font-family: Arial, sans-serif;
+        color: #333;
+    }
+
+    .book-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        background-color: white;
+        border-radius: 5px;
+    }
+
+    .book-image {
+        width: 100%;  /* Changed to fill the container width */
+        max-width: 350px; /* Set a max-width for larger screens */
+        height: auto;
+        border-radius: 5px;
+    }
+
+    .book-info {
+        flex: 1;
+        margin-left: 20px;
+    }
+
+    .book-info h1 {
+        margin-top: 0;
+    }
+
+    .authors, .price {
+        margin: 5px 0;
+    }
+
+    .tag {
+        display: inline-block;
+        background-color: #007BFF; /* Change the background color */
+        color: #fff; /* Change the text color */
+        padding: 5px 10px;
+        margin: 5px 5px 5px 0; /* Add some margin to the bottom and the sides */
+        border-radius: 10px;
+        font-size: 14px;
+        text-decoration: none; /* Remove the underline */
+    }
+
+    .book-description, .book-rating {
+        background-color: #f8f8f8;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .user-rating {
+        border-top: 1px solid #ccc;
+        padding: 10px 0;
+        margin-top: 10px;
+    }
+
+    .user-rating:first-child {
+        border-top: none;
+    }
+
+    .user-comment {
+        font-style: italic;
+    }
+
+    .star-rating {
+        cursor: pointer;
+    }
+    .star, .user_star {
+        width: 40px; /* Adjust size as needed */
+        transition: transform 0.2s;
+    }
+
+    .star:hover {
+        transform: scale(1.1);
+    }
+
+</style>

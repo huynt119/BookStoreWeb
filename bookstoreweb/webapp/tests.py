@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 from .models import *
 import json
 from .views import *
+from django.contrib.sessions.backends.db import SessionStore
 
 # TEST CASE MODELS
 class BookModelTest(TestCase):
@@ -261,8 +262,8 @@ class ViewTests(TestCase):
         )
         self.tag = Tag.objects.create(tag='Fiction')
         self.book = Book.objects.create(
-            item_id=1,
-            url="product/1/",
+            item_id=5,
+            url="product/5/",
             title="Test Book",
             authors="Author",
             lang="en",
@@ -275,6 +276,11 @@ class ViewTests(TestCase):
         self.transaction = Transaction.objects.create(user=self.user, amount=100)
         self.book_quantity = BookQuantity.objects.create(transaction=self.transaction, book=self.book, quantity=1)
         self.client.login(username='testuser', password='password123')
+        session = SessionStore()
+        
+        # Gán session cho client
+        self.client.cookies['sessionid'] = session.session_key
+
 
     # def test_remove_cart(self):
     #     session = self.client.session
@@ -289,7 +295,8 @@ class ViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.book.title)
 
-    def test_rate_book(self):      
+    def test_rate_book(self):   
+        response = self.client.post(reverse('book_detail', args=[self.book.item_id]))  
         response = self.client.post(reverse('rate_book'))
         Rating.objects.create(item=self.book, user=self.user, rating=5)
         self.assertEqual(response.status_code, 302)

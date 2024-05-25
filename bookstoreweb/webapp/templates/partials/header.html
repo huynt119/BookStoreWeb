@@ -18,7 +18,23 @@
 </head>
 <body>
     <header>
-        <h1><a id="homepage" href="{% url 'home' %}">Bookstore</a></h1>
+        <style>
+            .logo-container {
+                display: flex;
+                align-items: center;
+            }
+        
+            .logo-container img {
+                margin-right: 10px; /* Điều chỉnh khoảng cách giữa chữ và ảnh */
+            }
+        </style>
+        
+        <h1>
+            <a id="homepage" href="{% url 'home' %}" class="logo-container">
+                <img src="{% static "images/books-logo.png" %}" width="50" height="50">
+                Bookstore
+            </a>
+        </h1>
         <nav>
             <form action="{% url 'search_results' %}" method="get" class="navbar-search">
                 <div class="product_search">

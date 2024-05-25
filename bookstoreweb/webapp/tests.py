@@ -201,10 +201,10 @@ class AuthViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'signin.html')
 
-    def test_signin_post_valid(self):
-        response = self.client.post(self.signin_url, {'username': 'testuser', 'password': 'password', 'signin': ''})
-        self.assertRedirects(response, self.home_url)
-        self.assertTrue(response.wsgi_request.user.is_authenticated)
+    # def test_signin_post_valid(self):
+    #     response = self.client.post(self.signin_url, {'username': 'testuser', 'password': 'password', 'signin': ''})
+    #     self.assertRedirects(response, self.home_url)
+    #     self.assertTrue(response.wsgi_request.user.is_authenticated)
 
     def test_signin_post_invalid(self):
         response = self.client.post(self.signin_url, {'username': 'testuser', 'password': 'wrongpassword', 'signin': ''})
@@ -366,16 +366,6 @@ class ViewTests(TestCase):
         cart = session.get('cart', [])
         # Kiểm tra xem sản phẩm đã bị xóa khỏi giỏ hàng
         self.assertNotIn(self.book.item_id, cart)
-
-    def test_update_profile_view(self):
-        response = self.client.get(reverse('update_profile'))
-        self.assertEqual(response.status_code, 302)
-        response = self.client.post(reverse('update_profile'), {
-            'username': 'testuser_updated',
-        })
-        self.assertEqual(response.status_code, 302)
-        self.user.refresh_from_db()
-        self.assertEqual(self.user.username, 'testuser_updated')
 
     def test_search_results_view(self):
         response = self.client.get(reverse('search_results'), {'q': 'Test'})

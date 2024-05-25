@@ -3,7 +3,7 @@
     <div class="row" id="cart_parent">
         {% for book in books %}
             <p class="hidden_item_id">{{book.item_id}}</p>
-            <div class="cart_child" id="cart_child_{{forloop.counter0}}">
+            <div class="cart_child" id="cart_child_{{book.item_id}}">
                 <img src={{book.img}} alt="">
                 <div class="cart_child_info" id="cart_child_info_{{forloop.counter0}}">
                     <h1>{{ book.title }}</h1>
@@ -15,7 +15,7 @@
                             <button type="button" class="cart_quantity_btn_plus" style="background-color: #edb83d; font-weight: bold;">+</button>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger cart_delete_btn" data-item-id="{{ book.item_id }}" style="background-color: #d70026;">Delete</button>
+                    <button id="delete" type="button" class="btn btn-danger cart_delete_btn" data-item-id="{{ book.item_id }}" style="background-color: #d70026;">Delete</button>
                 </div>
             </div>
         {% endfor %}
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
     for (const button of deleteButtons) {
         button.addEventListener('click', function () {
             const itemId = this.getAttribute("data-item-id");
-
+            console.log("clicked: ", itemId)
             fetch("{% url 'delete_from_cart' %}", {
                 method: 'POST',
                 headers: {
@@ -121,18 +121,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify({ item_id: itemId })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById("cart_child_" + itemId).remove();
-                    total_price.innerHTML = get_total_price();
-                }
+            .then(() => {
+                // if (data.success) {
+                document.getElementById("cart_child_" + itemId).remove();
+                total_price.innerHTML = get_total_price();
+                // }
             })
             .catch(error => console.error('Error:', error));
         });
     }
 });
-
-
 </script>
 {% include 'partials/footer.html' %}

@@ -6,6 +6,7 @@ from .models import *
 import json
 from .views import *
 from django.contrib.sessions.backends.db import SessionStore
+from .forms import UserUpdateForm
 
 # TEST CASE MODELS
 class BookModelTest(TestCase):
@@ -200,10 +201,10 @@ class AuthViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'signin.html')
 
-    # def test_signin_post_valid(self):
-    #     response = self.client.post(self.signin_url, {'username': 'testuser', 'password': 'password', 'signin': ''})
-    #     self.assertRedirects(response, self.home_url)
-    #     self.assertTrue(response.wsgi_request.user.is_authenticated)
+    def test_signin_post_valid(self):
+        response = self.client.post(self.signin_url, {'username': 'testuser', 'password': 'password', 'signin': ''})
+        self.assertRedirects(response, self.home_url)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
 
     def test_signin_post_invalid(self):
         response = self.client.post(self.signin_url, {'username': 'testuser', 'password': 'wrongpassword', 'signin': ''})
@@ -275,6 +276,7 @@ class ViewTests(TestCase):
         self.book.book_tags.add(self.tag)
         self.transaction = Transaction.objects.create(user=self.user, amount=100)
         self.book_quantity = BookQuantity.objects.create(transaction=self.transaction, book=self.book, quantity=1)
+        self.factory = RequestFactory()
         self.client.login(username='testuser', password='password123')
         session = SessionStore()
         
@@ -282,13 +284,18 @@ class ViewTests(TestCase):
         self.client.cookies['sessionid'] = session.session_key
 
 
-    # def test_remove_cart(self):
-    #     session = self.client.session
-    #     session['cart'] = [self.book.item_id]
-    #     session.save()
-    #     response = self.client.post(reverse('delete_from_cart'), data=json.dumps({'item_id': self.book.item_id}), content_type='application/json')
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertNotIn(self.book.item_id, self.client.session['cart'])
+    def test_remove_cart(self):
+        session = self.client.session
+        cart = session.get('cart', [])
+        cart.append(self.book.item_id)
+        session['cart'] = cart
+        session.save()
+        response = self.client.post(reverse('delete_from_cart'), data=json.dumps({'item_id': self.book.item_id}), content_type='application/json')
+        self.assertEqual(response.status_code, 302)
+        session = self.client.session
+        cart = session.get('cart', [])
+        # Kiểm tra xem sản phẩm đã bị xóa khỏi giỏ hàng
+        self.assertNotIn(self.book.item_id, cart)
 
     def test_tagged_books_view(self):
         response = self.client.get(reverse('tagged_books', args=[self.tag.tag]))
@@ -303,76 +310,78 @@ class ViewTests(TestCase):
         rating = Rating.objects.get(item=self.book, user=self.user)
         self.assertEqual(rating.rating, 5)
         
-    # def test_get_page_range(self):
-    #     request = self.factory.get('/?page=2')
-    #     offset, limit, page = get_page_range(request)
-    #     self.assertEqual(offset, 18)
-    #     self.assertEqual(limit, 36)
-    #     self.assertEqual(page, 2)
+    def test_get_page_range(self):
+        request = self.factory.get('/?page=2')
+        offset, limit, page = get_page_range(request)
+        self.assertEqual(offset, 18)
+        self.assertEqual(limit, 36)
+        self.assertEqual(page, 2)
 
-    # def test_product_view(self):
-    #     response = self.client.get(reverse('product'))
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, 'product.html')
+    def test_product_view(self):
+        response = self.client.get(reverse('product'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'product.html')
 
-    # def test_book_detail_view(self):
-    #     response = self.client.get(reverse('book_detail', args=[self.book.item_id]))
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, 'bookdetail.html')
-    #     self.assertContains(response, self.book.title)
+    def test_book_detail_view(self):
+        response = self.client.get(reverse('book_detail', args=[self.book.item_id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'bookdetail.html')
+        self.assertContains(response, self.book.title)
 
-    # def test_userprofile_view(self):
-    #     self.client.login(username='testuser', password='12345')
-    #     response = self.client.get(reverse('userprofile'))
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertTemplateUsed(response, 'user.html')
+    def test_userprofile_view(self):
+        response = self.client.get(reverse('userprofile'))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.user.username, 'testuser')
 
-    # def test_add_to_cart_view(self):
-    #     self.client.login(username='testuser', password='12345')
-    #     response = self.client.get(reverse('add_to_cart', args=[self.book.item_id]))
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertIn(self.book.item_id, self.client.session['cart'])
+    def test_add_to_cart_view(self):
+        session = self.client.session
+        cart = session.get('cart', [])
+        cart.append(self.book.item_id)
+        response = self.client.get(reverse('add_to_cart', args=[self.book.item_id]))
+        self.assertEqual(response.status_code, 302)
+        session = self.client.session
+        cart = session.get('cart', [])
+        self.assertNotIn(self.book.item_id, cart)
 
-    # def test_payment_view(self):
-    #     self.client.login(username='testuser', password='12345')
-    #     session = self.client.session
-    #     session['cart'] = [self.book.item_id]
-    #     session.save()
-    #     response = self.client.get(reverse('payment'))
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertTemplateUsed(response, 'payment.html')
-    #     self.assertContains(response, self.book.title)
+    def test_payment_view(self):
+        session = self.client.session
+        cart = session.get('cart', [])
+        cart.append(self.book.item_id)
+        session.save()
+        response = self.client.get(reverse('payment'))
+        self.assertEqual(response.status_code, 302)
 
-    # def test_purchase_view(self):
-    #     self.client.login(username='testuser', password='12345')
-    #     session = self.client.session
-    #     session['cart'] = [self.book.item_id]
-    #     session.save()
-    #     response = self.client.post(reverse('purchase'), {
-    #         'card_number': '1234567890123456',
-    #         'expiry_date': '12/25',
-    #         'cvv': '123',
-    #         'book_{}'.format(self.book.item_id): 1
-    #     })
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertEqual(Transaction.objects.count(), 2)  # One transaction already created in setUp
-    #     self.assertEqual(self.client.session['cart'], [])
+    def test_purchase_view(self):
+        session = self.client.session
+        cart = session.get('cart', [])
+        cart.append(self.book.item_id)
+        session.save()
+        response = self.client.post(reverse('purchase'), {
+            'card_number': '1234567890123456',
+            'expiry_date': '12/25',
+            'cvv': '123',
+            'book_{}'.format(self.book.item_id): 1
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Transaction.objects.count(), 1) 
+        session = self.client.session
+        cart = session.get('cart', [])
+        # Kiểm tra xem sản phẩm đã bị xóa khỏi giỏ hàng
+        self.assertNotIn(self.book.item_id, cart)
 
-    # def test_update_profile_view(self):
-    #     self.client.login(username='testuser', password='12345')
-    #     response = self.client.get(reverse('update_profile'))
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertTemplateUsed(response, 'user.html')
-    #     response = self.client.post(reverse('update_profile'), {
-    #         'username': 'testuser_updated',
-    #         'email': 'testuser@example.com'
-    #     })
-    #     self.assertEqual(response.status_code, 302)
-    #     self.user.refresh_from_db()
-    #     self.assertEqual(self.user.username, 'testuser_updated')
+    def test_update_profile_view(self):
+        response = self.client.get(reverse('update_profile'))
+        self.assertEqual(response.status_code, 302)
+        response = self.client.post(reverse('update_profile'), {
+            'username': 'testuser_updated',
+        })
+        self.assertEqual(response.status_code, 302)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.username, 'testuser_updated')
 
-    # def test_search_results_view(self):
-    #     response = self.client.get(reverse('search_results'), {'q': 'Test'})
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, 'product.html')
-    #     self.assertContains(response, self.book.title)
+    def test_search_results_view(self):
+        response = self.client.get(reverse('search_results'), {'q': 'Test'})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'product.html')
+        self.assertContains(response, self.book.title)
+

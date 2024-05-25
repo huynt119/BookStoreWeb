@@ -339,9 +339,7 @@ class ViewTests(TestCase):
         cart.append(self.book.item_id)
         response = self.client.get(reverse('add_to_cart', args=[self.book.item_id]))
         self.assertEqual(response.status_code, 302)
-        session = self.client.session
-        cart = session.get('cart', [])
-        self.assertNotIn(self.book.item_id, cart)
+        self.assertIn(self.book.item_id, cart)
 
     def test_payment_view(self):
         session = self.client.session

@@ -1,5 +1,8 @@
 # BookStoreWeb
 
+## Video demo
+Video demo [here](https://www.youtube.com/watch?v=BedY-nFctMc)
+
 ## Installation
 
 ### Download and install Docker Desktop
